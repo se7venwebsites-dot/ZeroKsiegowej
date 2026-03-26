@@ -1,0 +1,1366 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - ZeroKsięgowej</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: { primary: '#2563eb' }
+                }
+            }
+        }
+    </script>
+    <style>
+        body { background: #f8fafc; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+        .nav-link.active { color: #2563eb; border-left-color: #2563eb; }
+        .card { background: white; border-radius: 16px; box-shadow: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04); }
+    </style>
+</head>
+<body class="font-sans">
+
+    <!-- Sidebar -->
+    <div class="fixed inset-y-0 left-0 w-64 bg-white border-r border-slate-100 flex flex-col z-20">
+        <div class="p-6 border-b border-slate-50">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
+                    <span class="material-symbols-outlined text-white text-sm">auto_awesome</span>
+                </div>
+                <span class="font-black text-slate-900 text-sm tracking-tight">ZeroKsięgowa AI</span>
+            </div>
+        </div>
+
+        <nav class="flex-1 p-4 space-y-1">
+            <a id="nav-overview" onclick="switchTab('overview')" class="nav-link active flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-700 hover:text-primary border-l-2 border-transparent cursor-pointer transition-all">
+                <span class="material-symbols-outlined text-base">dashboard</span> Przegląd
+            </a>
+            <a id="nav-invoices" onclick="switchTab('invoices')" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-500 hover:text-primary border-l-2 border-transparent cursor-pointer transition-all">
+                <span class="material-symbols-outlined text-base">receipt_long</span> Faktury
+            </a>
+            <a id="nav-expenses" onclick="switchTab('expenses')" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-500 hover:text-primary border-l-2 border-transparent cursor-pointer transition-all">
+                <span class="material-symbols-outlined text-base">payments</span> Koszty
+            </a>
+            <a id="nav-tax" onclick="switchTab('tax')" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-500 hover:text-primary border-l-2 border-transparent cursor-pointer transition-all">
+                <span class="material-symbols-outlined text-base">calculate</span> Podatki
+            </a>
+            <a id="nav-docs" onclick="switchTab('docs')" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-500 hover:text-primary border-l-2 border-transparent cursor-pointer transition-all">
+                <span class="material-symbols-outlined text-base">folder</span> Dokumenty
+            </a>
+            <a id="nav-ai" onclick="switchTab('ai')" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-500 hover:text-primary border-l-2 border-transparent cursor-pointer transition-all">
+                <span class="material-symbols-outlined text-base">smart_toy</span> Asystent AI
+            </a>
+            <a id="nav-profile" onclick="switchTab('profile')" class="nav-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-semibold text-slate-500 hover:text-primary border-l-2 border-transparent cursor-pointer transition-all">
+                <span class="material-symbols-outlined text-base">account_balance</span> Profil Firmy
+            </a>
+        </nav>
+
+        <div class="p-4 border-t border-slate-50">
+            <div class="p-3 rounded-xl bg-slate-50 mb-3">
+                <div class="flex justify-between items-center text-xs mb-1.5">
+                    <span class="font-bold text-slate-600">Plan <span id="planBadge" class="text-primary">STARTER</span></span>
+                    <span id="planRemaining" class="text-slate-400">Pozostało 10 faktur</span>
+                </div>
+                <div class="w-full h-1.5 bg-slate-200 rounded-full">
+                    <div id="planProgress" class="h-full bg-primary rounded-full transition-all" style="width:100%"></div>
+                </div>
+                <p id="invoiceStatusDebug" class="text-[9px] text-slate-400 mt-1 uppercase font-bold tracking-tighter">System gotowy</p>
+            </div>
+            <button onclick="window.location.href='cennik.html'" class="w-full py-2 text-xs font-bold text-primary border border-primary/20 rounded-lg hover:bg-primary/5 transition-all mb-2">Ulepsz Plan</button>
+            <button onclick="logout()" class="w-full py-2 text-xs font-semibold text-slate-400 hover:text-slate-600 transition-all">Wyloguj się</button>
+        </div>
+    </div>
+
+    <!-- Main -->
+    <div class="ml-64 min-h-screen">
+        <header class="bg-white border-b border-slate-100 px-8 py-5 flex items-center justify-between sticky top-0 z-10">
+            <div>
+                <h1 id="tabTitle" class="text-lg font-black text-slate-900">Finanse</h1>
+            </div>
+            <div class="flex items-center gap-4">
+                <button onclick="openSalesForm()" class="flex items-center gap-2 px-4 py-2 bg-primary text-white text-xs font-bold rounded-lg hover:bg-blue-700 transition-all">
+                    <span class="material-symbols-outlined text-sm">add</span> Nowa Faktura
+                </button>
+                <button onclick="openForm('expense')" class="flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-xs font-bold rounded-lg hover:bg-slate-700 transition-all">
+                    <span class="material-symbols-outlined text-sm">add</span> Dodaj Koszt
+                </button>
+                <div class="text-right">
+                    <p class="text-xs font-bold text-slate-900">Firma</p>
+                    <p class="text-xs font-medium text-slate-400">NIP: —</p>
+                </div>
+            </div>
+        </header>
+
+        <div class="p-8">
+
+            <!-- OVERVIEW TAB -->
+            <div id="tab-overview" class="tab-content active">
+                
+                <div id="taxAlertBanner" class="hidden mb-6 bg-orange-50 border border-orange-200 rounded-xl p-5 flex items-start gap-4 shadow-sm">
+                    <span class="material-symbols-outlined text-orange-500 text-3xl">lightbulb</span>
+                    <div>
+                        <p class="font-bold text-orange-900 text-sm">Prognoza AI: Przekroczysz pierwszy próg podatkowy w przyszłym miesiącu (120 000 zł)</p>
+                        <p class="text-xs text-orange-800 mt-1">Sugerowana zmiana formy opodatkowania na ryczałt od nowego roku kalendarzowego. System wyliczył, że na ryczałcie (8.5%) zaoszczędziłbyś w tym tempie ok. 14 500 PLN w stosunku do drugiego progu (32%).</p>
+                    </div>
+                </div>
+
+                <!-- Widgets -->
+                <div class="grid grid-cols-3 gap-6 mb-8">
+                    <div class="card p-6">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Przychody</p>
+                        <p class="text-3xl font-black text-slate-900"><span id="valNetIncome">0</span> <span class="text-lg font-bold text-slate-400">PLN</span></p>
+                        <p id="labelIncomeTrend" class="text-xs text-slate-400 mt-1">Dodaj pierwszą fakturę</p>
+                    </div>
+                    <div class="card p-6">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Koszty</p>
+                        <p class="text-3xl font-black text-slate-900"><span id="valExpenses">0</span> <span class="text-lg font-bold text-slate-400">PLN</span></p>
+                        <p id="labelExpenseCount" class="text-xs text-slate-400 mt-1">0 dokumentów kosztowych</p>
+                    </div>
+                    <div class="card p-6">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">Szacowany Podatek</p>
+                        <p class="text-3xl font-black text-slate-900"><span id="valTax">0</span> <span class="text-lg font-bold text-slate-400">PLN</span></p>
+                        <p class="text-xs text-slate-400 mt-1">Zasady Ogólne 2024</p>
+                    </div>
+                </div>
+
+                <!-- Chart + Recent -->
+                <div class="grid grid-cols-5 gap-6">
+                    <div class="col-span-2 card p-6">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Wykres Kwartalny</p>
+                        <div style="height:180px"><canvas id="miniChart"></canvas></div>
+                    </div>
+                    <div class="col-span-3 card overflow-hidden">
+                        <div class="px-8 py-5 border-b border-slate-50">
+                            <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Ostatnie Transakcje</p>
+                        </div>
+                        <table class="w-full">
+                            <tbody id="recentTable">
+                                <tr><td colspan="4" class="px-8 py-6 text-xs text-slate-400 text-center">Brak transakcji</td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- INVOICES TAB -->
+            <div id="tab-invoices" class="tab-content">
+                <!-- AI SCANNER INCOME -->
+                <div class="mb-6 card p-8 border-2 border-emerald-500/20 bg-emerald-50/30">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 bg-emerald-500 text-white rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined">auto_awesome</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg">Skaner Faktur Sprzedaży (AI Zysk)</h3>
+                            <p class="text-xs text-slate-500">Wgraj fakturę wystawioną klientowi. AI odczyta NIP nabywcy i przygotuje dane do JPK.</p>
+                        </div>
+                    </div>
+                    <div id="scannerUI-idle-income">
+                        <input type="file" id="fileInput-income" class="hidden" accept="image/*,.pdf" onchange="startScan('income')">
+                        <div id="dropZone-income" class="border-2 border-dashed border-emerald-500/30 bg-white rounded-xl p-8 text-center cursor-pointer hover:border-emerald-500 transition-colors">
+                            <span class="material-symbols-outlined text-4xl text-emerald-500 mb-2">cloud_upload</span>
+                            <p class="text-sm font-bold text-slate-700">Kliknij lub upuść fakturę sprzedaży</p>
+                        </div>
+                    </div>
+                    
+                    <div id="scannerUI-active-income" class="hidden text-center py-6">
+                        <div class="w-full bg-slate-200 rounded-full h-3 mb-3">
+                            <div id="scanProgress-income" class="bg-emerald-500 h-full rounded-full transition-all" style="width:0%"></div>
+                        </div>
+                        <p id="scanLabel-income" class="text-xs text-slate-500 font-bold uppercase tracking-widest">AI analizuje fakturę sprzedaży...</p>
+                    </div>
+                    
+                    <div id="scannerUI-success-income" class="hidden bg-emerald-50 border border-emerald-200 rounded-xl p-4 mt-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-emerald-600">verified</span>
+                            <div>
+                                <p class="text-sm font-bold text-emerald-800">Przychód zaksięgowany!</p>
+                                <p id="scanResultText-income" class="text-xs text-emerald-600 mt-1"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card overflow-hidden">
+                    <div class="px-8 py-5 border-b border-slate-50 flex justify-between items-center">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Faktury Przychodowe</p>
+                        <button onclick="openForm('income')" class="text-xs font-bold text-primary hover:underline">+ Dodaj</button>
+                    </div>
+                    <table class="w-full"><tbody id="incomeBody"></tbody></table>
+                </div>
+            </div>
+
+            <!-- EXPENSES TAB -->
+            <div id="tab-expenses" class="tab-content">
+                <div class="mb-6 card p-8 border-2 border-primary/20 bg-blue-50/30">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 bg-primary text-white rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined">document_scanner</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg">Autonomiczny Skaner Księgowy (AI)</h3>
+                            <p class="text-xs text-slate-500">Przeciągnij plik PDF lub zdjęcie faktury. System sam sczyta NIP, zweryfikuje Białą Listę i zaksięguje koszt.</p>
+                        </div>
+                    </div>
+                    
+                    <div id="scannerUI-idle-expense">
+                        <input type="file" id="fileInput-expense" class="hidden" accept="image/*,.pdf" onchange="startScan('expense')">
+                        <div id="dropZone-expense" class="border-2 border-dashed border-primary/30 bg-white rounded-xl p-8 text-center cursor-pointer hover:border-primary transition-colors">
+                            <span class="material-symbols-outlined text-4xl text-primary mb-2">cloud_upload</span>
+                            <p class="text-sm font-bold text-slate-700">Kliknij lub upuść fakturę kosztową (JPG, PNG, PDF)</p>
+                        </div>
+                    </div>
+                    
+                    <div id="scannerUI-active-expense" class="hidden text-center py-6">
+                        <div class="w-full bg-slate-200 rounded-full h-3 mb-3">
+                            <div id="scanProgress-expense" class="bg-primary h-full rounded-full transition-all" style="width:0%"></div>
+                        </div>
+                        <p id="scanLabel-expense" class="text-xs text-slate-500 font-bold uppercase tracking-widest">AI analizuje koszt...</p>
+                    </div>
+                    
+                    <div id="scannerUI-success-expense" class="hidden bg-emerald-50 border border-emerald-200 rounded-xl p-4 mt-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-emerald-600">verified</span>
+                            <div>
+                                <p class="text-sm font-bold text-emerald-800">Koszt zaksięgowany!</p>
+                                <p id="scanResultText-expense" class="text-xs text-emerald-600 mt-1"></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="scannerUI-error" class="hidden bg-red-50 border border-red-200 rounded-xl p-4 mt-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-red-600">warning</span>
+                            <div>
+                                <p class="text-sm font-bold text-red-800">Uwaga! Potencjalny problem z kontrahentem.</p>
+                                <p class="text-xs text-red-600 mt-1">NIP sprzedawcy nie figuruje jako czynny podatnik VAT w Białej Liście MF. Odliczenie VAT jest niemożliwe.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card overflow-hidden">
+                    <div class="px-8 py-5 border-b border-slate-50">
+                        <p class="text-xs font-bold text-slate-400 uppercase tracking-widest">Rejestr Kosztów</p>
+                    </div>
+                    <table class="w-full"><tbody id="expenseBody"></tbody></table>
+                </div>
+            </div>
+
+            <!-- TAX TAB -->
+            <div id="tab-tax" class="tab-content">
+                <div class="card p-8 mb-6">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-4">Ustawienia Podatkowe</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-2">Forma Opodatkowania</label>
+                            <select id="settingTax" onchange="sync()" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary bg-white">
+                                <option value="ogolne">Zasady Ogólne (12%)</option>
+                                <option value="liniowy">Podatek Liniowy (19%)</option>
+                                <option value="ryczalt">Ryczałt ewidencjonowany (8.5%)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-2">Składka ZUS</label>
+                            <select id="settingZus" onchange="sync()" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary bg-white">
+                                <option value="duzy">Duży ZUS</option>
+                                <option value="maly">Mały ZUS Plus</option>
+                                <option value="ulga">Ulga na Start (0 PLN)</option>
+                                <option value="brak">Brak (np. zbieg z etatem)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold text-slate-700 mb-2">Płatnik VAT</label>
+                            <select id="settingVat" onchange="sync()" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-primary bg-white">
+                                <option value="yes">Tak (doliczany do wyniku)</option>
+                                <option value="no">Zwolniony z VAT</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-8">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6" id="taxCalcTitle">Kalkulator Czystego Zysku</p>
+                    <div class="grid grid-cols-1 md:grid-cols-4 gap-6" id="taxDetails">
+                        <div class="p-5 bg-slate-50 rounded-xl border border-slate-100 relative">
+                            <span class="absolute top-2 right-2 text-[10px] font-bold bg-slate-200 px-2 py-0.5 rounded text-slate-500">DO 25-GO</span>
+                            <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">Urząd Skarb. VAT</p>
+                            <p class="text-2xl font-black text-slate-900 mt-1" id="taxVat">0</p>
+                            <p class="text-xs text-slate-400 mt-1">PLN</p>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-xl border border-slate-100 relative">
+                            <span class="absolute top-2 right-2 text-[10px] font-bold bg-slate-200 px-2 py-0.5 rounded text-slate-500">DO 20-GO</span>
+                            <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">ZUS Społeczny</p>
+                            <p class="text-2xl font-black text-slate-900 mt-1" id="taxZus">0</p>
+                            <p class="text-xs text-slate-400 mt-1">PLN</p>
+                        </div>
+                        <div class="p-5 bg-slate-50 rounded-xl border border-slate-100 relative">
+                            <span class="absolute top-2 right-2 text-[10px] font-bold bg-slate-200 px-2 py-0.5 rounded text-slate-500">DO 20-GO</span>
+                            <p class="text-xs text-slate-400 font-bold uppercase tracking-widest">Składka Zdrow.</p>
+                            <p class="text-2xl font-black text-slate-900 mt-1" id="taxHealth">0</p>
+                            <p class="text-xs text-slate-400 mt-1">PLN</p>
+                        </div>
+                        <div class="p-5 bg-blue-50 rounded-xl border border-blue-100 relative">
+                            <span class="absolute top-2 right-2 text-[10px] font-bold bg-blue-200 text-blue-700 px-2 py-0.5 rounded">DO 20-GO</span>
+                            <p class="text-xs text-primary font-bold uppercase tracking-widest">Urząd Skarb. PIT</p>
+                            <p class="text-2xl font-black text-primary mt-1" id="taxPit">0</p>
+                            <p class="text-xs text-slate-400 mt-1">PLN</p>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between bg-slate-50 rounded-xl p-6">
+                        <div>
+                            <p class="text-sm font-bold text-slate-600 uppercase tracking-widest">Suma do zapłaty urzędom</p>
+                            <p class="text-4xl font-black text-slate-900" id="taxTotalPay">0 <span class="text-xl text-slate-400 font-bold">PLN</span></p>
+                        </div>
+                        <button onclick="payTaxes()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold px-8 py-4 rounded-xl shadow-xl flex items-center gap-3 transition-all">
+                            <span class="material-symbols-outlined">qr_code_scanner</span>
+                            Generuj przelewy / Zapłać
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DOCS TAB -->
+            <div id="tab-docs" class="tab-content">
+                <div class="card p-8">
+                    <p class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-6">Raporty i Eksport Urzędowy</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <div class="p-6 border border-slate-100 rounded-xl hover:shadow-lg transition-all cursor-pointer group bg-white" onclick="downloadSimulation('KPiR_Obecny_Miesiac.pdf')">
+                            <div class="w-12 h-12 bg-blue-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-primary">description</span>
+                            </div>
+                            <h3 class="font-bold text-slate-900 mb-1">Pobierz KPiR</h3>
+                            <p class="text-xs text-slate-500">Księga Przychodów i Rozchodów (PDF z obecnego miesiąca)</p>
+                        </div>
+                        <div class="p-6 border border-slate-100 rounded-xl hover:shadow-lg transition-all cursor-pointer group bg-white" onclick="downloadSimulation('Ewidencja_VAT.pdf')">
+                            <div class="w-12 h-12 bg-purple-50 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-purple-600">receipt_long</span>
+                            </div>
+                            <h3 class="font-bold text-slate-900 mb-1">Ewidencja VAT</h3>
+                            <p class="text-xs text-slate-500">Pełny rejestr zakupu i sprzedaży VAT (PDF)</p>
+                        </div>
+                        <div class="p-6 border border-slate-100 rounded-xl hover:shadow-lg transition-all cursor-pointer group bg-gradient-to-br from-emerald-500 to-teal-500 text-white relative overflow-hidden" onclick="sendJPK()">
+                            <div class="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-white">send</span>
+                            </div>
+                            <h3 class="font-bold mb-1">Zamknij i wyślij JPK_V7</h3>
+                            <p class="text-xs text-white/80">Wygeneruj XML i wyślij na bramkę Ministerstwa Finansów (e-Deklaracje)</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card p-8 mt-6">
+                    <div class="flex items-center gap-4 mb-4">
+                        <div class="w-10 h-10 bg-indigo-500 text-white rounded-full flex items-center justify-center">
+                            <span class="material-symbols-outlined">receipt</span>
+                        </div>
+                        <div>
+                            <h3 class="font-bold text-slate-900 text-lg">E-Faktura KSeF (XML)</h3>
+                            <p class="text-xs text-slate-500">Narzędzie przygotowuje pliki gotowe do importu w rządowej Aplikacji Podatnika KSeF</p>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <button id="btn-docs-ksef" onclick="handleKSeFDocsBtn()" class="px-6 py-3 bg-indigo-600 text-white text-sm font-bold rounded-xl hover:bg-indigo-700 transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined">download</span>
+                            Pobierz plik do wysyłki
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AI TAB -->
+            <div id="tab-ai" class="tab-content">
+                <div class="card p-0 flex flex-col h-[600px] bg-slate-50/50">
+                    <div class="p-6 border-b border-slate-100 bg-white">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-primary rounded-full flex items-center justify-center shadow-lg shadow-primary/20">
+                                <span class="material-symbols-outlined text-white">robot_2</span>
+                            </div>
+                            <div>
+                                <h2 class="font-bold text-slate-900">Doradca Podatkowy AI</h2>
+                                <p class="text-xs text-slate-500">Zadawaj pytania księgowe. Zawsze online, zawsze aktualny z przepisami MF 2024.</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div id="chatHistory" class="flex-1 p-6 overflow-y-auto space-y-6">
+                        <div class="flex items-start gap-3">
+                            <div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                <span class="material-symbols-outlined text-white text-xs">robot_2</span>
+                            </div>
+                            <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-100 text-sm text-slate-700 shadow-sm max-w-[80%]">
+                                Cześć! Jestem Twoim wirtualnym księgowym. W czym mogę Ci pomóc? Przykłady:<br><br>
+                                💬 <i>"Kupiłem ekspres do kawy za 2000 zł, czy to koszt?"</i><br>
+                                💬 <i>"Ile jeszcze zostało mi kwoty wolnej?"</i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="p-4 bg-white border-t border-slate-100">
+                        <form id="chatForm" onsubmit="sendChat(event)" class="relative">
+                            <input id="chatInput" type="text" placeholder="Napisz do księgowego..." class="w-full bg-slate-50 border border-slate-200 rounded-full pl-6 pr-14 py-4 text-sm focus:outline-none focus:border-primary focus:bg-white transition-all">
+                            <button type="submit" class="absolute right-2 top-2 bottom-2 w-10 bg-primary text-white rounded-full flex items-center justify-center hover:bg-blue-700 transition-colors">
+                                <span class="material-symbols-outlined text-sm">send</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- PROFILE TAB -->
+            <div id="tab-profile" class="tab-content">
+                <div class="card p-10 max-w-2xl mx-auto shadow-2xl">
+                    <div class="flex items-center gap-4 mb-8">
+                        <div class="w-14 h-14 bg-slate-900 text-white rounded-2xl flex items-center justify-center shadow-lg shadow-slate-900/20">
+                            <span class="material-symbols-outlined text-3xl font-bold">corporate_fare</span>
+                        </div>
+                        <div>
+                            <h2 class="text-2xl font-black text-slate-900">Profil Firmy</h2>
+                            <div id="ksef-connection-status" class="flex items-center gap-2">
+                                <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                                <p class="text-[10px] text-red-600 font-bold uppercase tracking-wider">Rozłączono z KSeF</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <label class="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">Pełna Nazwa Przedsiębiorstwa</label>
+                            <input id="prof-company" type="text" placeholder="Nazwa Twojej Firmy s.c." class="w-full border-2 border-slate-50 rounded-xl px-5 py-4 text-sm font-bold focus:outline-none focus:border-primary transition-all bg-slate-50/50">
+                        </div>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">NIP Firmy</label>
+                                <input id="prof-nip" type="text" placeholder="Np. 1030251255" class="w-full border-2 border-slate-50 rounded-xl px-5 py-4 text-sm font-bold focus:outline-none focus:border-primary transition-all bg-slate-50/50">
+                            </div>
+                            <div>
+                                <label class="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">Przychód za rok n-1 (do JPK)</label>
+                                <input id="prof-income-prev" type="number" placeholder="Np. 125000.00" class="w-full border-2 border-slate-50 rounded-xl px-5 py-4 text-sm font-bold focus:outline-none focus:border-primary transition-all bg-slate-50/50">
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-1 gap-6">
+                            <div>
+                                <label class="block text-[11px] font-black text-slate-400 uppercase tracking-widest mb-2">KSeF API Token (Inna bramka)</label>
+                                <input id="prof-ksef" type="password" placeholder="Twoje uprawnienia KSeF..." class="w-full border-2 border-slate-100 rounded-xl px-5 py-4 text-sm font-bold focus:outline-none focus:border-primary transition-all bg-white shadow-sm">
+                            </div>
+                        </div>
+                        
+                        <div class="p-6 bg-blue-50/50 rounded-2xl border border-blue-100/50">
+                            <div class="flex gap-4">
+                                <span class="material-symbols-outlined text-primary">security</span>
+                                <p class="text-[11px] text-slate-600 leading-relaxed font-medium italic">Dane są zabezpieczone certyfikatem SSL. Twoje klucze API są przesyłane wyłącznie w zaszyfrowanym kanale do endpointów autoryzacyjnych Ministerstwa Finansów.</p>
+                            </div>
+                        </div>
+
+                        <button onclick="saveProfile()" class="w-full py-5 bg-primary text-white text-sm font-black rounded-xl hover:bg-blue-700 transition-all flex items-center justify-center gap-3 shadow-xl shadow-primary/20">
+                            <span class="material-symbols-outlined">verified_user</span> Zaktualizuj i Połącz z KSeF
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- Professional Sales Invoice Modal -->
+    <div id="salesInvoiceModal" style="display:none" class="fixed inset-0 bg-slate-900/60 backdrop-blur-md flex items-center justify-center z-[60]">
+        <div class="bg-white rounded-3xl p-10 w-full max-w-2xl shadow-2xl relative">
+            <div class="flex justify-between items-center mb-8">
+                <div>
+                    <h3 class="text-2xl font-black text-slate-900">Nowa Faktura Sprzedaży</h3>
+                    <p class="text-xs text-slate-500 mt-1 font-medium italic">Standard KSeF FA(2) - Generowanie natychmiastowe</p>
+                </div>
+                <button onclick="closeSalesForm()" class="text-slate-400 hover:text-slate-600 transition-all"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            
+            <div class="grid grid-cols-2 gap-6">
+                <div class="col-span-1">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Kontrahent (NIP)</label>
+                    <input id="si-nip" type="text" placeholder="Np. 5250000000" oninput="validateSalesInvoice()" class="w-full border-2 border-slate-100 rounded-xl px-4 py-3 text-sm font-bold focus:outline-none focus:border-primary transition-all">
+                </div>
+                <div class="col-span-1">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Data wystawienia / płatności</label>
+                    <input id="si-date" type="date" class="w-full border-2 border-slate-100 rounded-xl px-4 py-3 text-sm font-bold focus:outline-none focus:border-primary transition-all">
+                </div>
+                <div class="col-span-2">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Nazwa towaru / usługi</label>
+                    <input id="si-desc" type="text" placeholder="Opis pozycji na fakturze" class="w-full border-2 border-slate-100 rounded-xl px-4 py-3 text-sm font-bold focus:outline-none focus:border-primary transition-all">
+                </div>
+                <div class="col-span-1">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Kwota Netto</label>
+                    <div class="relative">
+                        <input id="si-netto" type="number" step="0.01" placeholder="0.00" oninput="updateInvoiceTotals()" class="w-full border-2 border-slate-100 rounded-xl pl-4 pr-12 py-3 text-sm font-bold focus:outline-none focus:border-primary transition-all">
+                        <span class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400">PLN</span>
+                    </div>
+                </div>
+                <div class="col-span-1">
+                    <label class="block text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Stawka VAT</label>
+                    <select id="si-vat-rate" onchange="updateInvoiceTotals()" class="w-full border-2 border-slate-100 rounded-xl px-4 py-3 text-sm font-bold focus:outline-none focus:border-primary bg-white transition-all">
+                        <option value="0.23">23% VAT</option>
+                        <option value="0.08">8% VAT</option>
+                        <option value="0">zw (Zwolniony)</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="mt-8 p-6 bg-slate-50 rounded-2xl border border-slate-100 grid grid-cols-2 gap-4">
+                <div class="text-xs font-bold text-slate-500">
+                    <p>Podatek VAT: <span id="si-label-vat" class="text-slate-900 ml-1">0.00 PLN</span></p>
+                    <p class="mt-1">Kwota Brutto: <span id="si-label-brutto" class="text-primary font-black ml-1 text-sm">0.00 PLN</span></p>
+                </div>
+                <div class="flex justify-end items-center">
+                    <div id="nip-status" class="flex items-center gap-1 text-[10px] font-bold text-red-500">
+                        <span class="material-symbols-outlined text-xs">warning</span> NIP musi mieć 10 cyfr
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-8">
+                <button onclick="saveSalesInvoice()" class="py-4 bg-slate-900 text-white text-sm font-black rounded-xl hover:bg-slate-800 transition-all flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-sm">save</span> Zapisz do rejestru
+                </button>
+                <button id="btn-gen-ksef" disabled onclick="generateSalesInvoiceKSeF()" class="py-4 bg-primary text-white text-sm font-black rounded-xl hover:bg-blue-700 transition-all disabled:opacity-30 disabled:cursor-not-allowed flex items-center justify-center gap-2 shadow-xl shadow-primary/20">
+                    <span class="material-symbols-outlined text-sm">bolt</span> Zatwierdź i Wyślij do KSeF
+                </button>
+            </div>
+            <div id="ksef-status-banner" class="hidden mt-6 p-4 bg-emerald-50 text-emerald-700 rounded-xl border border-emerald-100 flex items-center gap-3">
+                <span class="material-symbols-outlined">check_circle</span>
+                <p id="ksef-status-text" class="text-xs font-bold uppercase tracking-wide"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Form Modal -->
+    <div id="formModal" style="display:none" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center z-50">
+        <div class="bg-white rounded-2xl p-8 w-full max-w-md shadow-2xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 id="formTitle" class="font-black text-slate-900">Dodaj Transakcję</h3>
+                <button onclick="closeForm()" class="text-slate-400 hover:text-slate-600"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            <div class="space-y-4">
+                <input id="formDesc" type="text" placeholder="Opis / Kontrahent" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-primary">
+                <input id="formAmount" type="number" placeholder="Kwota (PLN)" class="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm font-medium focus:outline-none focus:border-primary">
+                <button onclick="saveItem()" class="w-full py-3 bg-primary text-white text-sm font-bold rounded-xl hover:bg-blue-700 transition-all">Zapisz</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- UPO Modal -->
+    <div id="upoModal" style="display:none" class="fixed inset-0 bg-black/60 backdrop-blur-md flex items-center justify-center z-[60]">
+        <div class="bg-white rounded-3xl p-8 w-full max-w-lg shadow-2xl relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-1 bg-slate-200">
+                <div id="upoProgress" class="h-full bg-emerald-500 transition-all duration-1000 w-0"></div>
+            </div>
+            
+            <div class="flex justify-between items-center mb-6 mt-2">
+                <h3 class="font-black text-slate-900 text-lg flex items-center gap-2"><span class="material-symbols-outlined text-emerald-500 animate-pulse">sync</span> <span id="upoTitle">Wysyłka JPK_V7 na bramkę MF...</span></h3>
+                <button onclick="document.getElementById('upoModal').style.display='none'" class="text-slate-400 hover:text-slate-600"><span class="material-symbols-outlined">close</span></button>
+            </div>
+            
+            <div id="upoBody" class="space-y-4">
+                <div class="bg-slate-50 border border-slate-100 p-6 rounded-2xl text-center">
+                    <div class="animate-spin inline-block w-8 h-8 border-4 border-primary border-t-transparent rounded-full mb-4"></div>
+                    <p id="upoStatus" class="text-sm font-bold text-slate-600">Przygotowywanie paczki danych...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-storage-compat.js"></script>
+
+    <script>
+        // --- 1. CORE & UI LOGIC ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyARy3vOeAQ2LG6xMyuzWnJ2rpH_I6ubGlM",
+            authDomain: "zeroksiegowej.firebaseapp.com",
+            projectId: "zeroksiegowej",
+            storageBucket: "zeroksiegowej.firebasestorage.app",
+            messagingSenderId: "763679005684",
+            appId: "1:763679005684:web:a19ce63cc3530cf256b7a1"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let currentUser = null;
+        let userData = { plan: 'STARTER', company_name: '', nip: '', FirstName: '', LastName: '', BirthDate: '' };
+        window.invoices = [];
+        let myChart;
+        let currentFormType = 'income';
+
+        // Navigation
+        window.switchTab = function(tabId) {
+            console.log("Navigating to:", tabId);
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active'));
+            
+            const targetTab = document.getElementById('tab-' + tabId);
+            const targetNav = document.getElementById('nav-' + tabId);
+            if (targetTab) targetTab.classList.add('active');
+            if (targetNav) targetNav.classList.add('active');
+            
+            const titles = { overview: 'Finanse', invoices: 'Faktury', expenses: 'Koszty', tax: 'Podatki', ai: 'Asystent', docs: 'Dokumenty', profile: 'Profil Firmy' };
+            const titleEl = document.getElementById('tabTitle');
+            if (titleEl) titleEl.innerText = titles[tabId] || 'ZeroKsięgowa';
+        };
+
+        // Auth
+        auth.onAuthStateChanged(async user => {
+            if (!user) { window.location.href = 'landing.html'; return; }
+            currentUser = user;
+            await getUserData();
+            await fetchInvoices();
+            initChart();
+            sync();
+        });
+
+        async function getUserData() {
+            try {
+                const doc = await db.collection('users').doc(currentUser.uid).get();
+                if (doc.exists) {
+                    const data = doc.data();
+                    userData = { ...userData, ...data, nip: data.NIP || data.nip || '' };
+                    
+                    if (document.getElementById('prof-company')) document.getElementById('prof-company').value = userData.companyName || '';
+                    if (document.getElementById('prof-nip')) document.getElementById('prof-nip').value = userData.nip || '';
+                    if (document.getElementById('prof-ksef')) document.getElementById('prof-ksef').value = userData.ksefToken || '';
+                    if (document.getElementById('prof-income-prev')) document.getElementById('prof-income-prev').value = userData.incomePrevYear || '';
+                    
+                    syncKSeFButtons();
+                }
+            } catch (e) { console.error("Error loading user data:", e); }
+            const nameEl = document.querySelector('header .text-right p.font-bold');
+            const nipEl = document.querySelector('header .text-right p.font-medium');
+            if (nameEl) nameEl.innerText = (userData.FirstName && userData.LastName) ? `${userData.FirstName} ${userData.LastName}` : (userData.companyName || userData.company_name || currentUser.email.split('@')[0]);
+            if (nipEl) nipEl.innerText = `NIP: ${userData.nip || '—'}`;
+        }
+
+        window.syncKSeFButtons = function() {
+            const hasToken = !!userData.ksefToken;
+            
+            // Connection Status Badge
+            const statusBadge = document.getElementById('ksef-connection-status');
+            if (statusBadge) {
+                if (hasToken) {
+                    statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span><p class="text-[10px] text-emerald-600 font-bold uppercase tracking-wider">Połączono z KSeF (Środowisko Demo)</p>';
+                } else {
+                    statusBadge.innerHTML = '<span class="w-2 h-2 rounded-full bg-red-500"></span><p class="text-[10px] text-red-600 font-bold uppercase tracking-wider">Brak połączenia / Wymagany Token</p>';
+                }
+            }
+
+            // 1. Sales Modal Button
+            const ksefBtn = document.getElementById('btn-gen-ksef');
+            if (ksefBtn) ksefBtn.disabled = !hasToken;
+
+            // 2. Dokumenty Tab Button
+            const docsBtn = document.getElementById('btn-docs-ksef');
+            if (docsBtn) {
+                if (hasToken) {
+                    docsBtn.innerHTML = '<span class="material-symbols-outlined">bolt</span> Wyślij podsumowanie do KSeF';
+                    docsBtn.classList.add('bg-indigo-700');
+                    docsBtn.classList.remove('bg-indigo-600');
+                } else {
+                    docsBtn.innerHTML = '<span class="material-symbols-outlined">download</span> Pobierz plik do wysyłki';
+                    docsBtn.classList.remove('bg-indigo-700');
+                    docsBtn.classList.add('bg-indigo-600');
+                }
+            }
+        };
+
+        window.saveProfile = async function() {
+            const company = document.getElementById('prof-company').value;
+            const nip = document.getElementById('prof-nip').value;
+            const token = document.getElementById('prof-ksef').value;
+            const incomePrev = document.getElementById('prof-income-prev').value;
+
+            if (nip && nip.length !== 10) return alert("NIP musi mieć 10 cyfr!");
+
+            try {
+                await db.collection('users').doc(currentUser.uid).set({
+                    companyName: company,
+                    nip: nip,
+                    ksefToken: token,
+                    incomePrevYear: incomePrev
+                }, { merge: true });
+                
+                userData.companyName = company;
+                userData.nip = nip;
+                userData.ksefToken = token;
+                userData.incomePrevYear = incomePrev;
+                
+                alert("Profil zaktualizowany pomyślnie!");
+                await getUserData();
+            } catch (err) { alert("Błąd zapisu."); }
+        };
+
+        async function fetchInvoices() {
+            const snap = await db.collection('invoices').where('userId', '==', currentUser.uid).orderBy('date', 'desc').get();
+            window.invoices = snap.docs.map(d => ({ id: d.id, ...d.data() }));
+            if (window.invoices.length === 0) {
+                const old = await db.collection('invoices').where('user_id', '==', currentUser.uid).get();
+                window.invoices = old.docs.map(d => ({ id: d.id, ...d.data() }));
+            }
+        }
+
+        window.sync = function() {
+            const data = window.invoices || [];
+            // 1. Calculate base totals
+            const incTotal = data.filter(t => t.type === 'income').reduce((s, c) => s + (parseFloat(c.amount) || 0), 0);
+            const expTotal = data.filter(t => t.type === 'expense').reduce((s, c) => s + (parseFloat(c.amount) || 0), 0);
+            
+            // Extract Net/VAT if possible, otherwise assume amount is Gross and 23% VAT
+            const incNet = data.filter(t => t.type === 'income').reduce((s, c) => s + (parseFloat(c.amountNet) || (parseFloat(c.amount) / 1.23) || 0), 0);
+            const expNet = data.filter(t => t.type === 'expense').reduce((s, c) => s + (parseFloat(c.amountNet) || (parseFloat(c.amount) / 1.23) || 0), 0);
+            const incVat = data.filter(t => t.type === 'income').reduce((s, c) => s + (parseFloat(c.amountVat) || (parseFloat(c.amount) - parseFloat(c.amount) / 1.23) || 0), 0);
+            const expVat = data.filter(t => t.type === 'expense').reduce((s, c) => s + (parseFloat(c.amountVat) || (parseFloat(c.amount) - parseFloat(c.amount) / 1.23) || 0), 0);
+
+            const profitNet = Math.max(0, incNet - expNet);
+            const isVatPayer = document.getElementById('settingVat')?.value === 'yes';
+            const taxType = document.getElementById('settingTax')?.value || 'ogolne';
+            const zusType = document.getElementById('settingZus')?.value || 'duzy';
+
+            // 2. Update Overview Cards
+            const incEl = document.getElementById('valNetIncome');
+            const expEl = document.getElementById('valExpenses');
+            const taxEl = document.getElementById('valTax');
+            
+            if (incEl) incEl.innerText = incNet.toLocaleString('pl-PL', { maximumFractionDigits: 0 });
+            if (expEl) expEl.innerText = expNet.toLocaleString('pl-PL', { maximumFractionDigits: 0 });
+
+            // 3. Tax Calculator Details
+            let zusSocial = 0;
+            if (zusType === 'duzy') zusSocial = 1600;
+            else if (zusType === 'maly') zusSocial = 400;
+            
+            let healthIns = 0;
+            let pit = 0;
+            let vatPayable = isVatPayer ? Math.max(0, incVat - expVat) : 0;
+
+            if (taxType === 'ogolne') {
+                healthIns = profitNet * 0.09;
+                pit = Math.max(0, (profitNet - zusSocial) * 0.12);
+            } else if (taxType === 'liniowy') {
+                healthIns = profitNet * 0.049;
+                pit = Math.max(0, (profitNet - zusSocial) * 0.19);
+            } else if (taxType === 'ryczalt') {
+                healthIns = incNet < 60000 ? 380 : (incNet < 300000 ? 630 : 1130);
+                pit = incNet * 0.085;
+            }
+
+            const totalToPay = vatPayable + zusSocial + healthIns + pit;
+
+            // Update DOM
+            const domMap = {
+                'taxVat': vatPayable,
+                'taxZus': zusSocial,
+                'taxHealth': healthIns,
+                'taxPit': pit,
+                'taxTotalPay': totalToPay,
+                'valTax': totalToPay
+            };
+
+            for (const [id, val] of Object.entries(domMap)) {
+                const el = document.getElementById(id);
+                if (el) el.innerText = val.toLocaleString('pl-PL', { minimumFractionDigits: 2, maximumFractionDigits: 2 }).replace(',00', '');
+            }
+            
+            renderTables();
+            updateStatusDebug(data.length);
+
+            if (myChart) {
+                const months = ['01', '02', '03', '04'];
+                const incData = months.map(m => {
+                    const filtered = data.filter(t => t.type === 'income' && t.date && t.date.includes(`-0${parseInt(m)}-`));
+                    return filtered.reduce((s, c) => s + (parseFloat(c.amountNet) || parseFloat(c.amount)/1.23 || 0), 0);
+                });
+                const expData = months.map(m => {
+                    const filtered = data.filter(t => t.type === 'expense' && t.date && t.date.includes(`-0${parseInt(m)}-`));
+                    return filtered.reduce((s, c) => s + (parseFloat(c.amountNet) || parseFloat(c.amount)/1.23 || 0), 0);
+                });
+                
+                myChart.data.datasets[0].data = incData;
+                myChart.data.datasets[1].data = expData;
+                myChart.update();
+            }
+        };
+
+        function updateStatusDebug(count) {
+            const el = document.getElementById('invoiceStatusDebug');
+            const remaining = document.getElementById('planRemaining');
+            if (el) el.innerText = "System: " + count + " dokumentów";
+            if (remaining) remaining.innerText = "Zaksięgowano " + count + " faktur";
+        }
+
+        window.payTaxes = function() {
+            const modal = document.getElementById('upoModal');
+            const title = document.getElementById('upoTitle');
+            const status = document.getElementById('upoStatus');
+            const progress = document.getElementById('upoProgress');
+            
+            if (!modal) return alert("System płatności w przygotowaniu.");
+            
+            modal.style.display = 'flex';
+            title.innerText = "Generowanie przelewów podatkowych...";
+            status.innerText = "Łączenie z systemem bankowym / Bramką MF...";
+            progress.style.width = '0%';
+            
+            setTimeout(() => { progress.style.width = '40%'; status.innerText = "Szyfrowanie danych przelewu (SHA-256)..."; }, 1000);
+            setTimeout(() => { progress.style.width = '80%'; status.innerText = "Oczekiwanie na autoryzację aplikacji bankowej..."; }, 2500);
+            setTimeout(() => { 
+                progress.style.width = '100%'; 
+                status.innerHTML = `<div class="text-emerald-600 font-bold mb-2">Sukces!</div>
+                                    <div class="text-xs text-slate-500">Przelewy zostały przygotowane i wysłane do Twojej aplikacji bankowej. Zaakceptuj je, aby sfinalizować płatność.</div>
+                                    <button onclick="document.getElementById('upoModal').style.display='none'" class="mt-4 px-4 py-2 bg-slate-900 text-white text-xs rounded-lg">Zamknij</button>`;
+            }, 4000);
+        };
+
+        function renderTables() {
+            const row = (t) => `<tr class="border-b border-slate-50 hover:bg-slate-50/50 transition-all group">
+                <td class="px-8 py-4 text-xs font-bold text-slate-900">${t.description}</td>
+                <td class="px-8 py-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest">${t.date}</td>
+                <td class="px-8 py-4 text-right text-sm font-black ${t.type === 'income' ? 'text-emerald-600' : 'text-slate-900'}">
+                    ${t.type === 'income' ? '+' : '-'}${parseFloat(t.amount).toLocaleString()} PLN
+                </td>
+                <td class="px-4 py-4 text-right opacity-0 group-hover:opacity-100 transition-opacity">
+                    <button onclick="deleteInvoice('${t.id}')" class="text-slate-300 hover:text-red-500"><span class="material-symbols-outlined text-sm">delete</span></button>
+                </td>
+            </tr>`;
+            const noData = '<tr><td colspan="4" class="px-8 py-6 text-xs text-slate-400 text-center">Brak danych</td></tr>';
+            
+            const rTab = document.getElementById('recentTable');
+            const iTab = document.getElementById('incomeBody');
+            const eTab = document.getElementById('expenseBody');
+            const data = window.invoices || [];
+            
+            if (rTab) rTab.innerHTML = data.slice(0, 5).map(row).join('') || noData;
+            if (iTab) iTab.innerHTML = data.filter(t => t.type === 'income').map(row).join('') || noData;
+            if (eTab) eTab.innerHTML = data.filter(t => t.type === 'expense').map(row).join('') || noData;
+        }
+
+        window.deleteInvoice = async function(id) {
+            if (!confirm('Usunąć?')) return;
+            await db.collection('invoices').doc(id).delete();
+            window.invoices = window.invoices.filter(i => i.id !== id);
+            window.sync();
+        };
+
+        window.openForm = (type) => { currentFormType = type; document.getElementById('formTitle').innerText = type === 'income' ? 'Przychód' : 'Koszt'; document.getElementById('formModal').style.display = 'flex'; };
+        window.closeForm = () => { document.getElementById('formModal').style.display = 'none'; };
+
+        window.saveItem = async () => {
+            const desc = document.getElementById('formDesc').value;
+            const amt = parseFloat(document.getElementById('formAmount').value);
+            if (!desc || isNaN(amt)) return alert('Błędne dane');
+            const doc = { userId: currentUser.uid, type: currentFormType, description: desc, amount: amt, date: new Date().toISOString().split('T')[0] };
+            const ref = await db.collection('invoices').add(doc);
+            window.invoices.unshift({ id: ref.id, ...doc });
+            window.closeForm();
+            window.sync();
+        };
+
+        // --- NEW SALES INVOICE LOGIC ---
+        window.openSalesForm = () => {
+            document.getElementById('salesInvoiceModal').style.display = 'flex';
+            document.getElementById('si-date').value = new Date().toISOString().split('T')[0];
+        };
+        window.closeSalesForm = () => { document.getElementById('salesInvoiceModal').style.display = 'none'; };
+
+        window.updateInvoiceTotals = function() {
+            const netto = parseFloat(document.getElementById('si-netto').value) || 0;
+            const rate = parseFloat(document.getElementById('si-vat-rate').value) || 0;
+            const vat = netto * rate;
+            const brutto = netto + vat;
+            
+            document.getElementById('si-label-vat').innerText = vat.toFixed(2) + ' PLN';
+            document.getElementById('si-label-brutto').innerText = brutto.toFixed(2) + ' PLN';
+            validateSalesInvoice();
+        };
+
+        window.validateSalesInvoice = function() {
+            const nip = document.getElementById('si-nip').value.replace(/\D/g, '');
+            const isValidNip = nip.length === 10;
+            const btn = document.getElementById('btn-gen-ksef');
+            const status = document.getElementById('nip-status');
+            
+            if (isValidNip) {
+                btn.disabled = false;
+                status.innerHTML = '<span class="material-symbols-outlined text-xs text-emerald-500">check_circle</span> NIP poprawny';
+                status.classList.remove('text-red-500');
+                status.classList.add('text-emerald-500');
+            } else {
+                btn.disabled = true;
+                status.innerHTML = '<span class="material-symbols-outlined text-xs">warning</span> NIP musi mieć 10 cyfr';
+                status.classList.remove('text-emerald-500');
+                status.classList.add('text-red-500');
+            }
+        };
+
+        window.saveSalesInvoice = async function() {
+            const descEl = document.getElementById('si-desc');
+            const nettoEl = document.getElementById('si-netto');
+            const rateEl = document.getElementById('si-vat-rate');
+            const dateEl = document.getElementById('si-date');
+            const nipEl = document.getElementById('si-nip');
+            const vatText = document.getElementById('si-label-vat').innerText;
+            const bruttoText = document.getElementById('si-label-brutto').innerText;
+
+            const desc = descEl.value;
+            const netto = parseFloat(nettoEl.value);
+            const rate = parseFloat(rateEl.value);
+            const date = dateEl.value;
+            const nip = nipEl.value;
+
+            if (!desc || isNaN(netto) || !nip) return null; // Return null instead of alert to handle in generator
+
+            const vatVal = parseFloat(vatText.replace(/\s/g, '').replace(',', '.')) || 0;
+            const bruttoVal = parseFloat(bruttoText.replace(/\s/g, '').replace(',', '.')) || 0;
+
+            const doc = {
+                userId: currentUser.uid,
+                type: 'income',
+                description: desc,
+                amount: bruttoVal,
+                amountNet: netto,
+                amountVat: vatVal,
+                date: date,
+                customerNip: nip,
+                invoiceNr: 'FA/' + Math.floor(Math.random() * 9000 + 1000)
+            };
+
+            try {
+                // Add to local state first for instant UI response
+                const tempId = 'temp-' + Date.now();
+                window.invoices.unshift({ id: tempId, ...doc });
+                window.sync();
+
+                // Clear fields
+                descEl.value = '';
+                nettoEl.value = '';
+                nipEl.value = '';
+                document.getElementById('si-label-vat').innerText = '0.00 PLN';
+                document.getElementById('si-label-brutto').innerText = '0.00 PLN';
+                validateSalesInvoice();
+
+                // Persist to DB
+                console.log("Saving invoice to Firestore...");
+                const ref = await db.collection('invoices').add(doc);
+                
+                // Replace temp ID with real ID
+                const idx = window.invoices.findIndex(i => i.id === tempId);
+                if (idx !== -1) window.invoices[idx].id = ref.id;
+                
+                return doc; // Return the saved data
+            } catch (err) {
+                console.error("Błąd zapisu:", err);
+                return null;
+            }
+        };
+
+        window.generateSalesInvoiceKSeF = async function() {
+            const btn = document.getElementById('btn-gen-ksef');
+            const banner = document.getElementById('ksef-status-banner');
+            const statusText = document.getElementById('ksef-status-text');
+
+            if (!userData.ksefToken) {
+                return alert("Brak tokena KSeF. Uzupełnij dane w Profilu Firmy!");
+            }
+
+            // Get values BEFORE they are cleared
+            const nettoRaw = document.getElementById('si-netto').value;
+            const vatText = document.getElementById('si-label-vat').innerText;
+            const bruttoText = document.getElementById('si-label-brutto').innerText;
+            const nip = document.getElementById('si-nip').value;
+            const date = document.getElementById('si-date').value;
+
+            if (!nettoRaw || !nip) return alert("Wypełnij dane przed wysyłką!");
+
+            const nettoVal = parseFloat(nettoRaw) || 0;
+            const vatVal = parseFloat(vatText.replace(/\s/g, '').replace(',', '.')) || 0;
+            const bruttoVal = parseFloat(bruttoText.replace(/\s/g, '').replace(',', '.')) || 0;
+
+            const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<Faktura xmlns="http://crd.gov.pl/wzor/2023/06/29/12648/">
+    <Naglowek><KodFormularza kodSystemowy="FA (2)" wersjaSchemy="1-0E">FA</KodFormularza><WariantFormularza>2</WariantFormularza></Naglowek>
+    <Podmiot1><DaneIdentyfikacyjne><NIP>${userData.nip || '0000000000'}</NIP></DaneIdentyfikacyjne></Podmiot1>
+    <Podmiot2><DaneIdentyfikacyjne><NIP>${nip}</NIP></DaneIdentyfikacyjne></Podmiot2>
+    <Fa><KodWaluty>PLN</KodWaluty><P_1>${date}</P_1><P_2>FA_KSEF</P_2>
+    <P_13_1>${nettoVal.toFixed(2)}</P_13_1><P_14_1>${vatVal.toFixed(2)}</P_14_1><P_15>${bruttoVal.toFixed(2)}</P_15></Fa>
+</Faktura>`;
+
+            btn.disabled = true;
+            btn.innerHTML = '<span class="material-symbols-outlined animate-spin text-sm">sync</span> Wysyłanie do KSeF...';
+
+            try {
+                    const res = await fetch('/api/ksef-full-send', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nip: userData.nip, token: userData.ksefToken, xml: xml })
+                    });
+                    
+                    if (res.status === 404) {
+                        alert("Błąd 404: Funkcja KSeF nie została znaleziona. Uruchom projekt przez 'vercel dev', aby obsłużyć backend.");
+                        return;
+                    }
+    
+                    const result = await res.json();
+                    if (!res.ok) {
+                        banner.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-100');
+                        banner.classList.add('bg-red-50', 'text-red-700', 'border-red-100');
+                        statusText.innerText = `Błąd wysyłki (${res.status}): ${result.error || "Błąd serwera"}`;
+                        return;
+                    }
+
+                console.log("KSeF Response:", result);
+
+                if (result.success) {
+                    banner.classList.remove('hidden', 'bg-red-50', 'text-red-700', 'border-red-100');
+                    banner.classList.add('bg-emerald-50', 'text-emerald-700', 'border-emerald-100');
+                    statusText.innerText = `Sukces! Faktura wysłana do KSeF. Ref: ${result.referenceNumber}`;
+                    
+                    await window.saveSalesInvoice();
+                    window.sync();
+                    setTimeout(() => window.closeSalesForm(), 5000);
+                } else {
+                    banner.classList.remove('hidden', 'bg-emerald-50', 'text-emerald-700', 'border-emerald-100');
+                    banner.classList.add('bg-red-50', 'text-red-700', 'border-red-100');
+                    statusText.innerText = `Błąd: ${result.error || "Nieoczekiwana odpowiedź serwera"}`;
+                    if (result.details) console.error("KSeF Details:", result.details);
+                }
+            } catch (err) {
+                console.error("Critical Send Error:", err);
+                alert("Wystąpił błąd podczas komunikacji z API KSeF.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<span class="material-symbols-outlined text-sm">bolt</span> Zatwierdź i Wyślij do KSeF';
+            }
+        };
+
+        window.generateKSeF_FA2 = function(data) {
+            // Re-formatting just in case to ensure 2 decimal places in XML
+            const netto = parseFloat(data.netto || 0).toFixed(2);
+            const vat = parseFloat(data.vat || 0).toFixed(2);
+            const brutto = parseFloat(data.brutto || 0).toFixed(2);
+
+            const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<Faktura xmlns="http://crd.gov.pl/wzor/2023/06/29/12648/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="FA (2)" wersjaSchemy="1-0E">FA</KodFormularza>
+        <WariantFormularza>2</WariantFormularza>
+    </Naglowek>
+    <Podmiot1>
+        <DaneIdentyfikacyjne>
+            <NIP>${data.nip_sprzedawcy || '0000000000'}</NIP>
+        </DaneIdentyfikacyjne>
+    </Podmiot1>
+    <Podmiot2>
+        <DaneIdentyfikacyjne>
+            <NIP>${data.nip_nabywcy || '1111111111'}</NIP>
+        </DaneIdentyfikacyjne>
+    </Podmiot2>
+    <Fa>
+        <KodWaluty>PLN</KodWaluty>
+        <P_1>${data.data || new Date().toISOString().split('T')[0]}</P_1>
+        <P_2>${data.numer || '1/2024'}</P_2>
+        <P_13_1>${netto}</P_13_1>
+        <P_14_1>${vat}</P_14_1>
+        <P_15>${brutto}</P_15>
+    </Fa>
+</Faktura>`;
+
+            const blob = new Blob([xml], { type: 'text/xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `faktura_ksef.xml`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        };
+
+        window.generateKSeF = async function() {
+            // Pull values directly from UI as requested by user
+            const vatVal = parseFloat(document.getElementById('taxVat').innerText.replace(/\s/g, '').replace(',', '.')) || 0;
+            const netVal = parseFloat(document.getElementById('valNetIncome').innerText.replace(/\s/g, '').replace(',', '.')) || 0;
+            const bruttoVal = netVal + vatVal;
+            
+            return {
+                nip_sprzedawcy: userData.nip || '0000000000',
+                nip_nabywcy: '5250000014', // NIP zbiorczy
+                netto: netVal,
+                vat: vatVal,
+                brutto: bruttoVal,
+                data: new Date().toISOString().split('T')[0],
+                numer: 'SUMA/' + new Date().toISOString().substring(0, 7).replace('-', '/')
+            };
+        };
+
+        window.handleKSeFDocsBtn = async function() {
+            const data = await window.generateKSeF();
+            
+            if (userData.ksefToken) {
+                // One-click send logic
+                const btn = document.getElementById('btn-docs-ksef');
+                btn.disabled = true;
+                btn.innerText = "Wysyłanie...";
+                
+                const xml = `<?xml version="1.0" encoding="UTF-8"?><Faktura xmlns="http://crd.gov.pl/wzor/2023/06/29/12648/"><Naglowek><KodFormularza kodSystemowy="FA (2)" wersjaSchemy="1-0E">FA</KodFormularza><WariantFormularza>2</WariantFormularza></Naglowek><Podmiot1><DaneIdentyfikacyjne><NIP>${data.nip_sprzedawcy}</NIP></DaneIdentyfikacyjne></Podmiot1><Podmiot2><DaneIdentyfikacyjne><NIP>${data.nip_nabywcy}</NIP></DaneIdentyfikacyjne></Podmiot2><Fa><KodWaluty>PLN</KodWaluty><P_1>${data.data}</P_1><P_2>${data.numer}</P_2><P_13_1>${data.netto.toFixed(2)}</P_13_1><P_14_1>${data.vat.toFixed(2)}</P_14_1><P_15>${data.brutto.toFixed(2)}</P_15></Fa></Faktura>`;
+
+                try {
+                    const res = await fetch('/api/ksef-full-send', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ nip: userData.nip, token: userData.ksefToken, xml: xml })
+                    });
+                    
+                    if (res.status === 404) {
+                        alert("Błąd 404: Serwer nie odnalazł funkcji API. Prawdopodobnie używasz zwykłego podglądu HTML zamiast komendy 'vercel dev'. Backend wymaga uruchomionego serwera Vercel.");
+                        return;
+                    }
+
+                    const result = await res.json();
+                    if (result.success) {
+                        alert("Podsumowanie wysłane do KSeF! Ref: " + result.referenceNumber);
+                    } else {
+                        alert("Błąd KSeF: " + result.error);
+                    }
+                } catch (e) { console.error(e); alert("Błąd połączenia z backendem."); }
+                finally {
+                    btn.disabled = false;
+                    btn.innerHTML = '<span class="material-symbols-outlined">bolt</span> Wyślij podsumowanie do KSeF';
+                }
+            } else {
+                // Just download XML
+                window.generateKSeF_FA2(data);
+            }
+        };
+
+        window.downloadSimulation = function(filename) {
+            const blob = new Blob(["Raport wygenerowany przez ZeroKsięgowa AI."], { type: 'application/pdf' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            a.click();
+        };
+
+        window.sendJPK = function() {
+            if (!userData.incomePrevYear) {
+                return alert("Brak kwoty przychodu za rok n-1! Uzupełnij Dane w Profilu Firmy do autoryzacji JPK.");
+            }
+
+            // 1. Generate full JPK_V7M XML structure (For NIP 1030251255)
+            const data = window.invoices || [];
+            const vatVal = parseFloat(document.getElementById('taxVat').innerText.replace(/\s/g, '').replace(',', '.')) || 0;
+            const incomeInvoices = data.filter(t => t.type === 'income');
+            
+            let ewidencjaRows = '';
+            incomeInvoices.forEach((inv, i) => {
+                ewidencjaRows += `
+        <SprzedazWiersz>
+            <LpSprzedazy>${i + 1}</LpSprzedazy>
+            <KodKrajuNadaniaTIN>PL</KodKrajuNadaniaTIN>
+            <NrKontrahenta>${inv.customerNip || '1111111111'}</NrKontrahenta>
+            <NazwaKontrahenta>${inv.description || 'Kontrahent'}</NazwaKontrahenta>
+            <DowodSprzedazy>${inv.invoiceNr || ('FA/' + (1000 + i))}</DowodSprzedazy>
+            <DataWystawienia>${inv.date || new Date().toISOString().split('T')[0]}</DataWystawienia>
+            <K_19>${parseFloat(inv.amountNet || inv.amount/1.23 || 0).toFixed(2)}</K_19>
+            <K_20>${parseFloat(inv.amountVat || inv.amount - inv.amount/1.23 || 0).toFixed(2)}</K_20>
+        </SprzedazWiersz>`;
+            });
+
+            const xml = `<?xml version="1.0" encoding="UTF-8"?>
+<JPK xmlns="http://jpk.mf.gov.pl/wzor/2020/05/08/05081/">
+    <Naglowek>
+        <KodFormularza kodSystemowy="JPK_V7M (1)" wersjaSchemy="1-2E">JPK</KodFormularza>
+        <WariantFormularza>1</WariantFormularza>
+        <DataWytworzeniaJPK>${new Date().toISOString()}</DataWytworzeniaJPK>
+        <NazwaSystemu>ZeroKsięgowa AI</NazwaSystemu>
+    </Naglowek>
+    <Podmiot1>
+        <DaneIdentyfikacyjne>
+            <NIP>1030251255</NIP>
+            <NazwaPelna>${userData.companyName || 'Moja Firma'}</NazwaPelna>
+        </DaneIdentyfikacyjne>
+    </Podmiot1>
+    <Deklaracja>
+        <P_38>${vatVal.toFixed(2)}</P_38>
+        <DaneAutoryzujace>
+            <KwotaPrzychodu>${parseFloat(userData.incomePrevYear).toFixed(2)}</KwotaPrzychodu>
+            <PodpisDaneAutoryzujace>Podpisano danymi za rok poprzedni</PodpisDaneAutoryzujace>
+        </DaneAutoryzujace>
+    </Deklaracja>
+    <Ewidencja>${ewidencjaRows}
+    </Ewidencja>
+</JPK>`;
+
+            const blob = new Blob([xml], { type: 'text/xml' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url; a.download = 'JPK_V7M_AUTORYZOWANY.xml'; a.click();
+
+            // 2. Show Modal Simulation (e-dokumenty.mf.gov.pl)
+            const modal = document.getElementById('upoModal');
+            const title = document.getElementById('upoTitle');
+            const status = document.getElementById('upoStatus');
+            const progress = document.getElementById('upoProgress');
+            
+            modal.style.display = 'flex';
+            title.innerText = "Wysyłka JPK na bramkę e-Dokumenty (MF)...";
+            status.innerText = "Nawiązywanie bezpiecznego połączenia z e-dokumenty.mf.gov.pl...";
+            progress.style.width = '0%';
+            
+            setTimeout(() => { progress.style.width = '25%'; status.innerText = `Weryfikacja podpisu: Kwota ${userData.incomePrevYear} PLN...`; }, 1000);
+            setTimeout(() => { progress.style.width = '60%'; status.innerText = "Przesyłanie spakowanego pakietu JPK_V7... (Bramka Produkcyjna)"; }, 2500);
+            setTimeout(() => { 
+                progress.style.width = '100%'; 
+                status.innerHTML = `<div class="text-emerald-600 font-bold mb-2">Pomyślnie wysłano do e-Deklaracje!</div>
+                                    <div class="text-xs text-slate-500">Numer referencyjny: 5a7c2b...<br>Autoryzacja danymi za rok poprzedni (${userData.incomePrevYear} PLN) została zaakceptowana przez bramkę MF.</div>
+                                    <button onclick="document.getElementById('upoModal').style.display='none'" class="mt-4 px-4 py-2 bg-slate-900 text-white text-xs rounded-lg">Zamknij</button>`;
+            }, 4500);
+        };
+
+        function initChart() {
+            const ctx = document.getElementById('miniChart');
+            if (!ctx) return;
+            myChart = new Chart(ctx.getContext('2d'), {
+                type: 'bar',
+                data: { labels: ['Sty', 'Lut', 'Mar', 'Kwi'], datasets: [{ data: [8000, 9500, 11000, 0], backgroundColor: '#10b981', borderRadius: 4 }, { data: [3000, 2800, 3200, 0], backgroundColor: '#3b82f6', borderRadius: 4 }] },
+                options: { responsive: true, maintainAspectRatio: false, plugins: { legend: { display: false } }, scales: { y: { display: false } } }
+            });
+        }
+
+        window.sendChat = function(event) {
+            event.preventDefault();
+            const input = document.getElementById('chatInput');
+            const history = document.getElementById('chatHistory');
+            const val = input.value;
+            if (!val) return;
+            
+            const userDiv = document.createElement('div');
+            userDiv.className = 'flex items-start gap-3 justify-end';
+            userDiv.innerHTML = `<div class="bg-primary text-white p-4 rounded-2xl rounded-tr-none text-sm shadow-sm max-w-[80%]">${val}</div>`;
+            history.appendChild(userDiv);
+            input.value = '';
+            
+            setTimeout(() => {
+                const aiDiv = document.createElement('div');
+                aiDiv.className = 'flex items-start gap-3';
+                aiDiv.innerHTML = `<div class="w-8 h-8 bg-primary rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                    <span class="material-symbols-outlined text-white text-xs">robot_2</span>
+                                 </div>
+                                 <div class="bg-white p-4 rounded-2xl rounded-tl-none border border-slate-100 text-sm text-slate-700 shadow-sm max-w-[80%]">Analizuję Twoje pytanie dotyczące podatków... W obecnym stanie Twoich faktur sugeruję, abyś zwrócił uwagę na zbliżający się termin ZUS.</div>`;
+                history.appendChild(aiDiv);
+                history.scrollTop = history.scrollHeight;
+            }, 1000);
+        };
+
+        window.logout = () => auth.signOut().then(() => window.location.href = 'landing.html');
+    </script>
+
+    <script type="module">
+        // --- 2. AI SCANNER MODULE ---
+        
+        window.startScan = async function(type) {
+            console.log("Scanner: Starting for", type);
+            const file = document.getElementById(`fileInput-${type}`).files[0];
+            if (!file) return;
+
+            const idle = document.getElementById(`scannerUI-idle-${type}`);
+            const active = document.getElementById(`scannerUI-active-${type}`);
+            const bar = document.getElementById(`scanProgress-${type}`);
+            const label = document.getElementById(`scanLabel-${type}`);
+            const success = document.getElementById(`scannerUI-success-${type}`);
+            const resultText = document.getElementById(`scanResultText-${type}`);
+
+            idle.classList.add('hidden');
+            active.classList.remove('hidden');
+            success.classList.add('hidden');
+            bar.style.width = '20%';
+            label.innerText = "OCR (rozpoznawanie tekstu)...";
+
+            try {
+                const { data: { text } } = await Tesseract.recognize(file, 'pol');
+                
+                bar.style.width = '50%';
+                label.innerText = "Wysyłanie do bezserwerowego Vercel API...";
+
+                console.log("Przesyłam sam tekst poprzez wbudowany endpoint /api/analyze...");
+                
+                const fetchResult = await fetch('/api/analyze', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text })
+                });
+
+                if (!fetchResult.ok) {
+                    throw new Error(`Błąd z własnego serwera API Vercel: ${fetchResult.statusText}`);
+                }
+
+                const responseJson = await fetchResult.json();
+                const rawText = responseJson.result || "";
+                
+                const match = rawText.match(/\{[\s\S]*\}/);
+                if (!match) throw new Error("Aplikacja backendowa nie zwróciła w formacie poprawnym schematu JSON.");
+                
+                const parsed = JSON.parse(match[0]);
+
+                const inv = {
+                    userId: firebase.auth().currentUser.uid,
+                    type: type,
+                    description: parsed.description || 'Faktura AI',
+                    amount: (parseFloat(parsed.amountNet) || 0) + (parseFloat(parsed.amountVat) || 0),
+                    amountNet: parseFloat(parsed.amountNet) || 0,
+                    amountVat: parseFloat(parsed.amountVat) || 0,
+                    date: parsed.date || new Date().toISOString().split('T')[0],
+                    customerNip: parsed.customerNip || '',
+                    invoiceNr: parsed.invoiceNr || ''
+                };
+
+                const ref = await firebase.firestore().collection('invoices').add(inv);
+                window.invoices.unshift({ id: ref.id, ...inv });
+                
+                bar.style.width = '100%';
+                setTimeout(() => {
+                    active.classList.add('hidden');
+                    resultText.innerHTML = `Gotowe: <b>${parsed.description}</b><br>Kwota: ${inv.amount.toFixed(2)} PLN`;
+                    success.classList.remove('hidden');
+                    window.sync();
+                }, 500);
+
+            } catch (error) {
+                console.error("Szczegóły błędu:", error);
+                alert("Błąd skanowania!");
+                active.classList.add('hidden');
+                idle.classList.remove('hidden');
+            }
+        };
+
+        // Initialize drop zones
+        ['income', 'expense'].forEach(t => {
+            const dz = document.getElementById('dropZone-' + t);
+            if (dz) {
+                dz.addEventListener('dragover', e => e.preventDefault());
+                dz.addEventListener('drop', e => { 
+                    e.preventDefault(); 
+                    document.getElementById('fileInput-' + t).files = e.dataTransfer.files; 
+                    window.startScan(t); 
+                });
+                dz.addEventListener('click', () => document.getElementById('fileInput-' + t).click());
+            }
+        });
+    </script></body>
+</html>

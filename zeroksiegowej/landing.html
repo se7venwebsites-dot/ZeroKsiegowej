@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html class="light" lang="pl">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>ZeroKsięgowej - Przyszłość Twoich Finansów</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "surface-container-low": "#f2f4f6",
+                  "surface-container-high": "#e6e8ea",
+                  "on-tertiary-fixed": "#002113",
+                  "error-container": "#ffdad6",
+                  "on-surface-variant": "#434655",
+                  "surface-container": "#eceef0",
+                  "primary-fixed-dim": "#b4c5ff",
+                  "secondary-fixed-dim": "#bec6e0",
+                  "surface-container-lowest": "#ffffff",
+                  "surface": "#f7f9fb",
+                  "primary": "#004ac6",
+                  "on-surface": "#191c1e",
+                  "surface-bright": "#f7f9fb",
+                  "surface-variant": "#e0e3e5",
+                  "error": "#ba1a1a",
+                  "tertiary-container": "#007d55",
+                  "inverse-on-surface": "#eff1f3",
+                  "secondary": "#565e74",
+                  "inverse-surface": "#2d3133",
+                  "on-error": "#ffffff",
+                  "on-secondary-container": "#5c647a",
+                  "surface-container-highest": "#e0e3e5",
+                  "on-secondary-fixed-variant": "#3f465c",
+                  "on-tertiary-fixed-variant": "#005236",
+                  "on-primary": "#ffffff",
+                  "tertiary-fixed-dim": "#4edea3",
+                  "outline-variant": "#c3c6d7",
+                  "on-primary-fixed": "#00174b",
+                  "tertiary-fixed": "#6ffbbe",
+                  "on-error-container": "#93000a",
+                  "on-background": "#191c1e",
+                  "on-primary-fixed-variant": "#003ea8",
+                  "surface-dim": "#d8dadc",
+                  "on-secondary-fixed": "#131b2e",
+                  "on-primary-container": "#eeefff",
+                  "primary-fixed": "#dbe1ff",
+                  "on-tertiary": "#ffffff",
+                  "surface-tint": "#0053db",
+                  "secondary-container": "#dae2fd",
+                  "secondary-fixed": "#dae2fd",
+                  "inverse-primary": "#b4c5ff",
+                  "background": "#f7f9fb",
+                  "tertiary": "#006242",
+                  "outline": "#737686",
+                  "primary-container": "#2563eb",
+                  "on-secondary": "#ffffff",
+                  "on-tertiary-container": "#bdffdb"
+                },
+                fontFamily: {
+                  "headline": ["Inter"],
+                  "body": ["Inter"],
+                  "label": ["Inter"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+              },
+            },
+          }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)]">
+        <div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+            <div class="text-xl font-extrabold tracking-tighter text-slate-900">ZeroKsięgowej</div>
+            <div class="hidden md:flex items-center space-x-8">
+                <a class="text-slate-600 font-medium hover:text-blue-500 transition-colors" href="#">Jak to działa</a>
+                <a class="text-slate-600 font-medium hover:text-blue-500 transition-colors" href="cennik.html">Cennik</a>
+                <a class="text-slate-600 font-medium hover:text-blue-500 transition-colors" href="login.html">Logowanie</a>
+            </div>
+            <button onclick="window.location.href='register.html'" class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold tracking-tight scale-95 active:scale-90 transition-transform hover:shadow-lg">
+                Zacznij darmowy okres próbny
+            </button>
+        </div>
+    </nav>
+
+    <main class="pt-24 overflow-hidden">
+        <!-- Hero Section -->
+        <section class="relative px-8 py-24 md:py-32 max-w-7xl mx-auto flex flex-col items-center text-center">
+            <div class="absolute top-0 -z-10 w-full h-full opacity-30 pointer-events-none">
+                <div class="absolute top-1/4 left-1/4 w-96 h-96 bg-primary-fixed filter blur-[120px] rounded-full"></div>
+                <div class="absolute bottom-1/4 right-1/4 w-96 h-96 bg-tertiary-fixed filter blur-[120px] rounded-full"></div>
+            </div>
+            <span class="inline-block px-4 py-1.5 mb-6 text-primary font-bold text-xs tracking-widest uppercase bg-primary-fixed/30 rounded-full">
+                Przyszłość księgowości jest tutaj
+            </span>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tighter leading-tight mb-8 text-on-surface">
+                Twoja księgowa właśnie <br class="hidden md:block"/> przeszła na <span class="text-primary italic">emeryturę.</span>
+            </h1>
+            <p class="text-xl md:text-2xl text-on-surface-variant max-w-3xl mb-12 font-medium leading-relaxed">
+                Pełna księgowość, JPK i optymalizacja podatkowa w cenie jednej kawy. <br class="hidden md:block"/> Bez kolejek, bez błędów, 24/7. Poznaj AI, które robi to lepiej.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4">
+                <button onclick="window.location.href='register.html'" class="px-10 py-5 bg-gradient-to-br from-primary to-primary-container text-white text-lg font-bold rounded-xl shadow-[0px_20px_40px_rgba(37,99,235,0.25)] hover:scale-105 transition-all">
+                    Zacznij darmowy okres próbny
+                </button>
+                <button onclick="window.location.href='index.html'" class="px-10 py-5 bg-surface-container-highest text-on-surface text-lg font-bold rounded-xl hover:bg-surface-container-high transition-all">
+                    Zobacz Demo
+                </button>
+            </div>
+            <!-- Hero Image Preview -->
+            <div class="mt-20 w-full max-w-5xl rounded-3xl overflow-hidden shadow-2xl relative border border-white/20">
+                <img class="w-full aspect-video object-cover" alt="Modern financial dashboard with clean AI charts and graphs" src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop"/>
+                <div class="absolute inset-0 bg-gradient-to-t from-surface via-transparent to-transparent"></div>
+            </div>
+        </section>
+
+        <!-- Bento Grid: Key Features -->
+        <section class="px-8 py-24 bg-surface-container-low">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div class="md:col-span-2 glass-card p-10 rounded-3xl border border-white shadow-sm flex flex-col justify-between h-96 reveal">
+                        <div>
+                            <div class="w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center mb-6">
+                                <span class="material-symbols-outlined">smart_toy</span>
+                            </div>
+                            <h3 class="text-2xl font-bold tracking-tight mb-4">Autopilot Podatkowy</h3>
+                            <p class="text-on-surface-variant text-lg max-w-md">Nasz algorytm skanuje tysiące przepisów w czasie rzeczywistym, aby znaleźć każdą możliwą optymalizację dla Twojej firmy.</p>
+                        </div>
+                        <div class="flex items-center text-primary font-bold cursor-pointer hover:gap-2 transition-all">
+                            Dowiedz się więcej <span class="material-symbols-outlined ml-2">arrow_forward</span>
+                        </div>
+                    </div>
+                    <div class="bg-white p-10 rounded-3xl shadow-sm border border-slate-100 flex flex-col items-center justify-center text-center reveal">
+                        <div class="text-6xl font-extrabold text-primary mb-4">24/7</div>
+                        <p class="text-on-surface font-bold text-xl">Dostępność</p>
+                        <p class="text-on-surface-variant mt-2">Twoje finanse nigdy nie śpią. My też nie.</p>
+                    </div>
+                    <div class="bg-primary text-white p-10 rounded-3xl shadow-xl flex flex-col justify-between reveal">
+                        <span class="material-symbols-outlined text-4xl">security</span>
+                        <div>
+                            <h3 class="text-xl font-bold mb-2">Bankowe Bezpieczeństwo</h3>
+                            <p class="text-primary-fixed opacity-90">Szyfrowanie AES-256 i pełna zgodność z RODO i MF.</p>
+                        </div>
+                    </div>
+                    <div class="md:col-span-2 glass-card p-10 rounded-3xl border border-white shadow-sm grid grid-cols-1 md:grid-cols-2 gap-8 items-center reveal">
+                        <div>
+                            <h3 class="text-2xl font-bold tracking-tight mb-4">Integracja z Twoim Bankiem</h3>
+                            <p class="text-on-surface-variant">Automatyczne pobieranie wyciągów i parowanie faktur. Zapomnij o ręcznym wpisywaniu przelewów.</p>
+                        </div>
+                        <div class="flex flex-wrap gap-4 justify-center">
+                            <div class="w-14 h-14 bg-white rounded-full shadow-sm flex items-center justify-center font-bold text-slate-400">PKO</div>
+                            <div class="w-14 h-14 bg-white rounded-full shadow-sm flex items-center justify-center font-bold text-orange-500">ING</div>
+                            <div class="w-14 h-14 bg-white rounded-full shadow-sm flex items-center justify-center font-bold text-red-600">mB</div>
+                            <div class="w-14 h-14 bg-white rounded-full shadow-sm flex items-center justify-center font-bold text-blue-800">Sant</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Section: "Dlaczego my?" -->
+        <section class="px-8 py-32 max-w-7xl mx-auto" id="comparison">
+            <div class="text-center mb-20 reveal">
+                <h2 class="text-4xl md:text-5xl font-extrabold tracking-tighter mb-4">Ewolucja Finansów</h2>
+                <p class="text-on-surface-variant text-xl">Sprawdź, dlaczego stare metody odchodzą do lamusa.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-stretch">
+                <!-- Stare Biuro -->
+                <div class="bg-surface-container rounded-[2rem] p-12 relative overflow-hidden group reveal">
+                    <div class="absolute top-0 right-0 p-8 opacity-10">
+                        <span class="material-symbols-outlined text-9xl">history</span>
+                    </div>
+                    <h3 class="text-3xl font-extrabold mb-8 flex items-center gap-3">
+                        <span class="text-slate-400">Stare Biuro</span>
+                    </h3>
+                    <ul class="space-y-8">
+                        <li class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-full bg-error-container text-error flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-lg">close</span>
+                            </div>
+                            <div>
+                                <p class="font-bold text-on-surface">Sterty papierowych faktur</p>
+                                <p class="text-on-surface-variant text-sm">Ręczne segregowanie, ryzyko zgubienia, marnowanie czasu.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-full bg-error-container text-error flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-lg">timer</span>
+                            </div>
+                            <div>
+                                <p class="font-bold text-on-surface">Dni oczekiwania na informację</p>
+                                <p class="text-on-surface-variant text-sm">O swoich podatkach dowiesz się dopiero 20-go dnia miesiąca.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Nasz System -->
+                <div class="bg-white rounded-[2rem] p-12 relative overflow-hidden border-2 border-primary shadow-2xl scale-105 z-10 reveal">
+                    <div class="absolute top-0 right-0 p-8 opacity-10 text-primary">
+                        <span class="material-symbols-outlined text-9xl">auto_awesome</span>
+                    </div>
+                    <h3 class="text-3xl font-extrabold mb-8 flex items-center gap-3">
+                        <span class="text-primary">Nasz System</span>
+                        <span class="text-xs bg-tertiary text-white px-2 py-1 rounded-md">LIVE</span>
+                    </h3>
+                    <ul class="space-y-8">
+                        <li class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-full bg-tertiary-container text-white flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-lg">check</span>
+                            </div>
+                            <div>
+                                <p class="font-bold text-on-surface">Błyskawiczny OCR</p>
+                                <p class="text-on-surface-variant text-sm">Zrób zdjęcie telefonem. AI odczyta dane w 0.5 sekundy.</p>
+                            </div>
+                        </li>
+                        <li class="flex items-start gap-4">
+                            <div class="w-8 h-8 rounded-full bg-tertiary-container text-white flex items-center justify-center shrink-0">
+                                <span class="material-symbols-outlined text-lg">bolt</span>
+                            </div>
+                            <div>
+                                <p class="font-bold text-on-surface">Podatki w czasie rzeczywistym</p>
+                                <p class="text-on-surface-variant text-sm">Widzisz kwotę do zapłaty w każdej sekundzie miesiąca.</p>
+                            </div>
+                        </li>
+                    </ul>
+                    <div class="mt-12 p-6 bg-surface-container-low rounded-2xl flex items-center justify-between">
+                        <div class="flex -space-x-3">
+                            <img class="w-10 h-10 rounded-full border-2 border-white" src="https://i.pravatar.cc/150?u=1" alt="Avatar"/>
+                            <img class="w-10 h-10 rounded-full border-2 border-white" src="https://i.pravatar.cc/150?u=2" alt="Avatar"/>
+                            <img class="w-10 h-10 rounded-full border-2 border-white" src="https://i.pravatar.cc/150?u=3" alt="Avatar"/>
+                            <div class="w-10 h-10 rounded-full bg-primary text-white text-[10px] flex items-center justify-center border-2 border-white">+2k</div>
+                        </div>
+                        <p class="text-sm font-semibold text-on-surface-variant">Dołącz do liderów</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="px-8 py-24">
+            <div class="max-w-7xl mx-auto bg-slate-900 rounded-[3rem] p-12 md:p-24 text-center text-white relative overflow-hidden reveal">
+                <div class="absolute inset-0 bg-gradient-to-r from-blue-900/40 to-emerald-900/40 opacity-50"></div>
+                <div class="relative z-10">
+                    <h2 class="text-4xl md:text-6xl font-extrabold tracking-tighter mb-8">Gotowy na zmianę?</h2>
+                    <p class="text-slate-300 text-xl md:text-2xl max-w-2xl mx-auto mb-12">Oszczędź średnio 40 godzin miesięcznie na formalnościach. Pierwszy miesiąc za 0 zł.</p>
+                    <button onclick="window.location.href='register.html'" class="px-12 py-6 bg-white text-slate-950 text-xl font-bold rounded-2xl hover:bg-primary hover:text-white transition-all shadow-[0px_0px_50px_rgba(255,255,255,0.2)]">
+                        Zacznij darmowy okres próbny
+                    </button>
+                    <p class="mt-8 text-slate-400 text-sm">Brak ukrytych kosztów. Rezygnujesz kiedy chcesz.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="w-full py-12 px-8 border-t border-slate-100 bg-white">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-8 max-w-7xl mx-auto">
+            <div class="space-y-4">
+                <div class="text-lg font-bold text-slate-900">ZeroKsięgowej</div>
+                <p class="text-slate-500 text-sm max-w-xs leading-relaxed">System księgowy nowej generacji wspierany przez sztuczną inteligencję.</p>
+            </div>
+            <div>
+                <h4 class="font-bold text-slate-900 mb-6">Produkt</h4>
+                <ul class="space-y-4">
+                    <li><a class="text-slate-500 text-xs hover:text-slate-900 underline underline-offset-4" href="#">Funkcje</a></li>
+                    <li><a class="text-slate-500 text-xs hover:text-slate-900 underline underline-offset-4" href="cennik.html">Cennik</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto mt-12 pt-12 border-t border-slate-50 flex flex-col md:row justify-between items-center text-slate-400 text-xs">
+            <p>© 2024 ZeroKsięgowej. Wszelkie prawa zastrzeżone.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const supabaseUrl = 'https://fcnulcznwqwzieaerckp.supabase.co';
+        const supabaseKey = 'sb_publishable_EAazKNxXHjBymKz8hFEkFw_TKpQcGBt';
+        const supabase = supabasejs.createClient(supabaseUrl, supabaseKey);
+
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                // Update all "Zacznij" and "Zarejestruj" buttons to "Przejdź do Dashboardu"
+                const ctaButtons = document.querySelectorAll('button[onclick*="register.html"]');
+                ctaButtons.forEach(btn => {
+                    btn.innerText = 'Przejdź do Dashboardu';
+                    btn.setAttribute('onclick', "window.location.href='index.html'");
+                });
+                
+                // Update Nav login link if it exists
+                const loginLink = document.querySelector('a[href="login.html"]');
+                if (loginLink) {
+                    loginLink.innerText = 'Dashboard';
+                    loginLink.setAttribute('href', 'index.html');
+                }
+            }
+        }
+
+        // Use Intersection Observer for fade-in animations
+        const observerOptions = { threshold: 0.1 };
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+        
+        window.onload = checkSession;
+    </script>
+</body>
+</html>

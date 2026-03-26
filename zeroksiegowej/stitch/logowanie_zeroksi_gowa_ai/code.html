@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Logowanie - ZeroKsięgowa</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "secondary-container": "#dae2fd",
+              "on-secondary-fixed-variant": "#3f465c",
+              "error": "#ba1a1a",
+              "surface-container-lowest": "#ffffff",
+              "tertiary-fixed-dim": "#4edea3",
+              "surface-dim": "#d8dadc",
+              "surface-tint": "#0053db",
+              "on-error-container": "#93000a",
+              "outline-variant": "#c3c6d7",
+              "primary": "#004ac6",
+              "on-primary-container": "#eeefff",
+              "on-secondary-fixed": "#131b2e",
+              "secondary": "#565e74",
+              "on-tertiary-fixed": "#002113",
+              "surface-container-high": "#e6e8ea",
+              "secondary-fixed-dim": "#bec6e0",
+              "on-surface": "#191c1e",
+              "tertiary-fixed": "#6ffbbe",
+              "inverse-primary": "#b4c5ff",
+              "on-primary-fixed": "#00174b",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#003ea8",
+              "surface-container-low": "#f2f4f6",
+              "outline": "#737686",
+              "on-secondary-container": "#5c647a",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "on-surface-variant": "#434655",
+              "primary-container": "#2563eb",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "primary-fixed-dim": "#b4c5ff",
+              "secondary-fixed": "#dae2fd",
+              "on-primary": "#ffffff",
+              "inverse-on-surface": "#eff1f3",
+              "primary-fixed": "#dbe1ff",
+              "on-tertiary-container": "#bdffdb",
+              "tertiary-container": "#007d55",
+              "surface-variant": "#e0e3e5",
+              "on-background": "#191c1e",
+              "inverse-surface": "#2d3133",
+              "on-secondary": "#ffffff",
+              "surface-container-highest": "#e0e3e5",
+              "surface": "#f7f9fb",
+              "tertiary": "#006242",
+              "surface-container": "#eceef0"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+      }
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col antialiased">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 w-full z-50 bg-slate-50/70 dark:bg-slate-950/70 backdrop-blur-xl font-['Inter'] antialiased tracking-tight no-border bg-opacity-70 backdrop-blur-md">
+<div class="flex justify-between items-center px-6 py-4 max-w-7xl mx-auto">
+<div class="text-xl font-extrabold tracking-tighter text-slate-900 dark:text-white">
+                ZeroKsięgowa
+            </div>
+<div class="flex items-center gap-6">
+<a class="text-slate-600 dark:text-slate-400 font-medium hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Pomoc</a>
+<a class="text-blue-600 dark:text-blue-500 font-semibold hover:text-blue-700 dark:hover:text-blue-300 transition-colors" href="#">Zaloguj się</a>
+</div>
+</div>
+</nav>
+<!-- Main Content -->
+<main class="flex-grow flex items-center justify-center px-4 pt-24 pb-12 relative overflow-hidden">
+<!-- Background Decoration (Abstract Shapes) -->
+<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-3xl"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-tertiary-fixed/10 rounded-full blur-3xl"></div>
+<div class="w-full max-w-[440px] z-10">
+<!-- Login Card -->
+<div class="glass-effect p-8 md:p-10 rounded-xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)] ring-1 ring-outline-variant/15">
+<div class="mb-10 text-center">
+<h1 class="text-[2rem] font-extrabold tracking-tight text-on-surface mb-2">Witaj ponownie</h1>
+<p class="text-on-surface-variant text-sm font-medium">Zaloguj się do swojego centrum finansowego</p>
+</div>
+<!-- Auth Providers -->
+<div class="grid grid-cols-2 gap-3 mb-8">
+<button class="flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-lowest rounded-xl hover:bg-surface-container-low transition-all active:scale-95 duration-200 ring-1 ring-outline-variant/10">
+<img alt="Google Logo" class="w-5 h-5" data-alt="Google colorful logo icon" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDHQWAoEqSvSyuasmaOXoXXxj5ubsS2BJGWW4vsX1xCTWusTeEI40PqoUAhlGsVkhUWtj2a2kyiAznXekll-VsiO3F-ORUNXUhcLq4fShTBeCO3dgeo30KG-1YDJEM_atMeLjfDmAsNSaSTrBnQ0S5_T7P15OcjcXcgv6bKZkwBaC14AVaAJ2JF1RHRXV7qFf_1KWRRc41pK91KzhUAvhD7ksAjQYevEFpnvMyoRwkw7w2RWU9IN81xvEo9Xi22-ufXReGRik_2GZo"/>
+<span class="text-sm font-semibold text-on-surface">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-3 px-4 bg-surface-container-lowest rounded-xl hover:bg-surface-container-low transition-all active:scale-95 duration-200 ring-1 ring-outline-variant/10">
+<span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">ios</span>
+<span class="text-sm font-semibold text-on-surface">Apple</span>
+</button>
+</div>
+<div class="relative flex items-center gap-4 mb-8">
+<div class="h-px flex-grow bg-outline-variant/20"></div>
+<span class="text-[10px] font-bold tracking-widest text-outline uppercase">lub e-mail</span>
+<div class="h-px flex-grow bg-outline-variant/20"></div>
+</div>
+<!-- Form -->
+<form class="space-y-5">
+<div class="space-y-1.5">
+<label class="text-xs font-bold text-outline tracking-wider uppercase ml-1" for="email">E-mail</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3.5 text-on-surface placeholder:text-outline focus:ring-1 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" id="email" placeholder="twoj@email.pl" type="email"/>
+</div>
+<div class="space-y-1.5">
+<div class="flex justify-between items-center ml-1">
+<label class="text-xs font-bold text-outline tracking-wider uppercase" for="password">Hasło</label>
+<a class="text-xs font-semibold text-primary hover:text-primary-container transition-colors" href="#">Zapomniałeś hasła?</a>
+</div>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3.5 text-on-surface placeholder:text-outline focus:ring-1 focus:ring-primary/20 focus:bg-surface-container-lowest transition-all" id="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<button class="w-full py-4 bg-primary-container text-white font-bold rounded-xl shadow-[0_10px_20px_-5px_rgba(37,99,235,0.3)] hover:shadow-[0_15px_25px_-5px_rgba(37,99,235,0.4)] transition-all active:scale-95 duration-200 mt-2" type="submit">
+                        Zaloguj się
+                    </button>
+</form>
+<div class="mt-8 pt-8 border-t border-outline-variant/10 text-center">
+<p class="text-sm text-on-surface-variant">
+                        Nie masz konta? 
+                        <a class="text-primary font-bold hover:underline underline-offset-4 ml-1" href="#">Zarejestruj się</a>
+</p>
+</div>
+<!-- Security Badge -->
+<div class="mt-10 flex items-center justify-center gap-2 text-outline-variant">
+<span class="material-symbols-outlined text-sm">lock</span>
+<span class="text-[10px] font-bold tracking-widest uppercase">Bezpieczne połączenie SSL</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer (Shared Component) -->
+<footer class="w-full py-12 border-t border-slate-200/50 dark:border-slate-800/50 bg-slate-50 dark:bg-slate-950 font-['Inter'] text-sm text-slate-500 dark:text-slate-400">
+<div class="flex flex-col md:flex-row justify-between items-center px-8 max-w-7xl mx-auto gap-4">
+<div class="text-center md:text-left">
+                © 2024 ZeroKsięgowa AI. Bezpieczeństwo klasy bankowej.
+            </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all opacity-80 hover:opacity-100" href="#">Polityka prywatności</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all opacity-80 hover:opacity-100" href="#">Regulamin</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all opacity-80 hover:opacity-100" href="#">Bezpieczeństwo</a>
+<a class="text-slate-500 dark:text-slate-400 hover:text-blue-600 dark:hover:text-blue-400 transition-all opacity-80 hover:opacity-100" href="#">Kontakt</a>
+</div>
+</div>
+</footer>
+</body></html>
