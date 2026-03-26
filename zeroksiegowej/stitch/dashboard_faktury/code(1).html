@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+
+<html lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "surface-container-low": "#f2f4f6",
+                "secondary-container": "#dae2fd",
+                "primary-fixed": "#dbe1ff",
+                "background": "#f7f9fb",
+                "surface-bright": "#f7f9fb",
+                "on-secondary-container": "#5c647a",
+                "surface-container": "#eceef0",
+                "on-tertiary": "#ffffff",
+                "on-surface": "#191c1e",
+                "surface-dim": "#d8dadc",
+                "on-error": "#ffffff",
+                "error-container": "#ffdad6",
+                "surface": "#f7f9fb",
+                "surface-container-high": "#e6e8ea",
+                "inverse-on-surface": "#eff1f3",
+                "error": "#ba1a1a",
+                "tertiary": "#006242",
+                "surface-container-lowest": "#ffffff",
+                "on-primary-container": "#eeefff",
+                "surface-tint": "#0053db",
+                "secondary-fixed": "#dae2fd",
+                "inverse-surface": "#2d3133",
+                "tertiary-container": "#007d55",
+                "on-primary-fixed-variant": "#003ea8",
+                "tertiary-fixed-dim": "#4edea3",
+                "primary": "#004ac6",
+                "on-tertiary-fixed": "#002113",
+                "outline-variant": "#c3c6d7",
+                "on-secondary-fixed": "#131b2e",
+                "primary-container": "#2563eb",
+                "secondary": "#565e74",
+                "primary-fixed-dim": "#b4c5ff",
+                "on-tertiary-fixed-variant": "#005236",
+                "on-secondary": "#ffffff",
+                "inverse-primary": "#b4c5ff",
+                "on-error-container": "#93000a",
+                "secondary-fixed-dim": "#bec6e0",
+                "tertiary-fixed": "#6ffbbe",
+                "surface-variant": "#e0e3e5",
+                "on-tertiary-container": "#bdffdb",
+                "on-primary-fixed": "#00174b",
+                "on-background": "#191c1e",
+                "on-secondary-fixed-variant": "#3f465c",
+                "outline": "#737686",
+                "on-surface-variant": "#434655",
+                "surface-container-highest": "#e0e3e5",
+                "on-primary": "#ffffff"
+              },
+              fontFamily: {
+                "headline": ["Inter"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1rem", "full": "9999px"},
+            },
+          },
+        }
+      </script>
+</head>
+<body class="text-on-surface selection:bg-primary-fixed selection:text-on-primary-fixed">
+<!-- SideNavBar -->
+<aside class="flex flex-col fixed left-0 top-0 h-full p-4 bg-slate-50 dark:bg-slate-900 h-screen w-64 border-r-0 font-['Inter'] antialiased tracking-tight text-sm font-semibold z-50">
+<div class="flex items-center gap-3 px-2 mb-10">
+<div class="w-10 h-10 bg-primary-container rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+</div>
+<div class="flex flex-col">
+<span class="text-xl font-extrabold tracking-tighter text-slate-900 dark:text-white">ZeroKsięgowa</span>
+<span class="text-[10px] uppercase tracking-[0.2em] text-slate-400">Financial Intel</span>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Główne</span>
+</a>
+<!-- ACTIVE TAB: Faktury -->
+<a class="flex items-center gap-3 px-4 py-3 bg-slate-200/50 dark:bg-blue-600/10 text-blue-600 dark:text-blue-400 rounded-xl transition-transform active:scale-95" href="#">
+<span class="material-symbols-outlined" data-icon="description" style="font-variation-settings: 'FILL' 1;">description</span>
+<span>Faktury</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Podatki</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Koszty</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span>Asystent_AI</span>
+</a>
+</nav>
+<div class="mt-auto pt-6 border-t border-slate-100 dark:border-slate-800 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Ustawienia</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Wyloguj</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Wrapper -->
+<div class="ml-64 min-h-screen">
+<!-- TopNavBar -->
+<header class="flex items-center justify-between w-full h-16 px-8 sticky top-0 z-40 bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800/50 shadow-[0px_20px_40px_rgba(15,23,42,0.06)]">
+<div class="flex items-center gap-4 flex-1">
+<div class="relative w-full max-w-md group">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-sm">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-2 pl-10 pr-4 text-sm focus:ring-2 focus:ring-blue-500/20 transition-all placeholder:text-slate-400" placeholder="Szukaj faktur, kontrahentów..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:text-blue-600 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:text-blue-600 transition-all active:scale-95">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<div class="h-8 w-[1px] bg-slate-200 mx-2"></div>
+<button class="px-5 py-2 bg-gradient-to-br from-primary to-primary-container text-white text-sm font-bold rounded-xl shadow-lg shadow-blue-500/20 active:scale-95 transition-transform">
+                    Upgrade
+                </button>
+<img class="w-10 h-10 rounded-full border-2 border-white shadow-sm object-cover" data-alt="Professional user avatar portrait" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA0Qh3wR312SKBZgfK9odCtaNOzIiLNBcU7-14cWWVIL-cHqXo6mpk7Ox-QVCvsr1J9OSdUdT5nZxctMkWjAWE3IpwJhbaVfD10WzyhcOwbq_ZjbcNr_9xw9vjiMI23tkJn7mSYFgfdv3vAkz_Tvjqk4J41GtUwpdA87zFBm9cJV4B7qLuGlNW6LbtSbgpGjHHWsohj5phmpSvQUYf2FZO6hZdb-L0cz9ZCwU2LGwqG2GTE0CdKvK_hX9E1454gXpFHF7WAfYlytlg"/>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<main class="p-12 space-y-12">
+<!-- Hero Section / Header -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-6">
+<div>
+<h1 class="text-4xl font-extrabold tracking-tighter text-slate-900">Zarządzanie Fakturami</h1>
+<p class="text-slate-500 mt-2 font-medium">Przeglądaj, wystawiaj i monitoruj swoje przepływy pieniężne.</p>
+</div>
+<button class="flex items-center gap-3 px-8 py-4 bg-gradient-to-br from-primary to-primary-container text-white text-lg font-bold rounded-xl shadow-[0px_20px_40px_rgba(37,99,235,0.2)] active:scale-95 transition-all">
+<span class="material-symbols-outlined" data-icon="add_circle" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                    Nowa Faktura
+                </button>
+</div>
+<!-- Bento Grid Summary -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Total Billed -->
+<div class="glass-card p-8 rounded-xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)] relative overflow-hidden group">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl group-hover:bg-blue-500/10 transition-colors"></div>
+<div class="flex flex-col h-full">
+<span class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">Suma wystawionych (Miesiąc)</span>
+<div class="flex items-baseline gap-2">
+<span class="text-5xl font-extrabold tracking-tighter text-slate-900">42.850</span>
+<span class="text-xl font-bold text-slate-400 tracking-tight">PLN</span>
+</div>
+<div class="mt-6 flex items-center gap-2 text-tertiary text-sm font-bold">
+<span class="material-symbols-outlined text-sm">trending_up</span>
+<span>+12.4% vs ubiegły miesiąc</span>
+</div>
+</div>
+</div>
+<!-- Overdue -->
+<div class="glass-card p-8 rounded-xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)] relative overflow-hidden group border-l-4 border-error">
+<div class="absolute -right-4 -top-4 w-24 h-24 bg-red-500/5 rounded-full blur-2xl"></div>
+<div class="flex flex-col h-full">
+<span class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-4">Faktury Zaległe</span>
+<div class="flex items-baseline gap-2">
+<span class="text-5xl font-extrabold tracking-tighter text-error">3.400</span>
+<span class="text-xl font-bold text-error/40 tracking-tight">PLN</span>
+</div>
+<div class="mt-6 flex items-center gap-2 text-slate-600 text-sm font-medium">
+<span class="w-2 h-2 rounded-full bg-error"></span>
+<span>2 faktury po terminie</span>
+</div>
+</div>
+</div>
+<!-- Status Distribution -->
+<div class="glass-card p-8 rounded-xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)]">
+<span class="text-slate-500 text-xs font-bold uppercase tracking-widest mb-6 block">Status Faktur</span>
+<div class="space-y-4">
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-slate-700">Opłacone</span>
+<span class="text-sm font-bold text-tertiary">18</span>
+</div>
+<div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-tertiary rounded-full" style="width: 75%"></div>
+</div>
+<div class="flex items-center justify-between">
+<span class="text-sm font-semibold text-slate-700">Oczekujące</span>
+<span class="text-sm font-bold text-primary">5</span>
+</div>
+<div class="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-primary rounded-full" style="width: 20%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Filters & List Section -->
+<div class="space-y-6">
+<div class="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/50 p-4 rounded-xl">
+<div class="flex items-center gap-3">
+<div class="flex items-center bg-surface-container-lowest shadow-sm rounded-lg p-1">
+<button class="px-4 py-1.5 text-sm font-bold bg-slate-100 text-slate-900 rounded-md">2023</button>
+<button class="px-4 py-1.5 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">2022</button>
+</div>
+<select class="bg-surface-container-lowest border-none shadow-sm rounded-lg text-sm font-semibold py-2 px-4 focus:ring-2 focus:ring-blue-500/20">
+<option>Październik</option>
+<option>Wrzesień</option>
+<option>Sierpień</option>
+</select>
+</div>
+<div class="flex items-center gap-2">
+<button class="flex items-center gap-2 px-4 py-2 bg-white text-slate-700 text-sm font-bold rounded-lg border border-slate-100 hover:bg-slate-50 transition-all">
+<span class="material-symbols-outlined text-base">filter_list</span>
+                            Filtruj
+                        </button>
+<button class="flex items-center gap-2 px-4 py-2 bg-white text-slate-700 text-sm font-bold rounded-lg border border-slate-100 hover:bg-slate-50 transition-all">
+<span class="material-symbols-outlined text-base">download</span>
+                            Eksportuj
+                        </button>
+</div>
+</div>
+<!-- Invoice Table -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0px_20px_40px_rgba(15,23,42,0.04)] overflow-hidden">
+<div class="grid grid-cols-12 px-8 py-5 border-b border-slate-50 text-slate-400 text-[11px] font-bold uppercase tracking-widest">
+<div class="col-span-1">Numer</div>
+<div class="col-span-4">Kontrahent</div>
+<div class="col-span-2 text-center">Data</div>
+<div class="col-span-2 text-right">Kwota (Brutto)</div>
+<div class="col-span-2 text-center">Status</div>
+<div class="col-span-1 text-right">Akcje</div>
+</div>
+<!-- Row 1 -->
+<div class="grid grid-cols-12 px-8 py-6 items-center hover:bg-slate-50/50 transition-colors group">
+<div class="col-span-1 text-sm font-bold text-slate-900">#24/10/23</div>
+<div class="col-span-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-xs font-bold">TC</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900">TechCorp Sp. z o.o.</span>
+<span class="text-xs text-slate-400">NIP: 525-000-00-00</span>
+</div>
+</div>
+<div class="col-span-2 text-center text-sm font-medium text-slate-600">12.10.2023</div>
+<div class="col-span-2 text-right text-sm font-bold text-slate-900">12.300,00 PLN</div>
+<div class="col-span-2 flex justify-center">
+<span class="px-3 py-1 bg-tertiary/10 text-tertiary text-[10px] font-extrabold uppercase tracking-wider rounded-full flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                                Opłacona
+                            </span>
+</div>
+<div class="col-span-1 text-right">
+<button class="p-2 text-slate-300 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Row 2 -->
+<div class="grid grid-cols-12 px-8 py-6 items-center hover:bg-slate-50/50 transition-colors group">
+<div class="col-span-1 text-sm font-bold text-slate-900">#25/10/23</div>
+<div class="col-span-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-xs font-bold">DS</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900">Design Studio s.c.</span>
+<span class="text-xs text-slate-400">NIP: 112-998-00-11</span>
+</div>
+</div>
+<div class="col-span-2 text-center text-sm font-medium text-slate-600">15.10.2023</div>
+<div class="col-span-2 text-right text-sm font-bold text-slate-900">4.500,00 PLN</div>
+<div class="col-span-2 flex justify-center">
+<span class="px-3 py-1 bg-primary/10 text-primary text-[10px] font-extrabold uppercase tracking-wider rounded-full flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                                Oczekująca
+                            </span>
+</div>
+<div class="col-span-1 text-right">
+<button class="p-2 text-slate-300 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Row 3 -->
+<div class="grid grid-cols-12 px-8 py-6 items-center hover:bg-slate-50/50 transition-colors group">
+<div class="col-span-1 text-sm font-bold text-slate-900">#21/09/23</div>
+<div class="col-span-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-xs font-bold">XM</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900">X-Media Solutions</span>
+<span class="text-xs text-slate-400">NIP: 897-444-22-11</span>
+</div>
+</div>
+<div class="col-span-2 text-center text-sm font-medium text-slate-600">22.09.2023</div>
+<div class="col-span-2 text-right text-sm font-bold text-slate-900">2.100,00 PLN</div>
+<div class="col-span-2 flex justify-center">
+<span class="px-3 py-1 bg-error/10 text-error text-[10px] font-extrabold uppercase tracking-wider rounded-full flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+                                Zaległa
+                            </span>
+</div>
+<div class="col-span-1 text-right">
+<button class="p-2 text-slate-300 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+<!-- Row 4 -->
+<div class="grid grid-cols-12 px-8 py-6 items-center hover:bg-slate-50/50 transition-colors group">
+<div class="col-span-1 text-sm font-bold text-slate-900">#26/10/23</div>
+<div class="col-span-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 text-xs font-bold">GA</div>
+<div class="flex flex-col">
+<span class="text-sm font-bold text-slate-900">Global Agency</span>
+<span class="text-xs text-slate-400">NIP: 556-778-99-00</span>
+</div>
+</div>
+<div class="col-span-2 text-center text-sm font-medium text-slate-600">18.10.2023</div>
+<div class="col-span-2 text-right text-sm font-bold text-slate-900">18.900,00 PLN</div>
+<div class="col-span-2 flex justify-center">
+<span class="px-3 py-1 bg-tertiary/10 text-tertiary text-[10px] font-extrabold uppercase tracking-wider rounded-full flex items-center gap-1.5">
+<span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>
+                                Opłacona
+                            </span>
+</div>
+<div class="col-span-1 text-right">
+<button class="p-2 text-slate-300 hover:text-slate-600 transition-colors">
+<span class="material-symbols-outlined">more_horiz</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Pagination -->
+<div class="flex items-center justify-between px-2">
+<span class="text-xs font-bold text-slate-400">Pokazano 4 z 156 faktur</span>
+<div class="flex items-center gap-2">
+<button class="w-10 h-10 flex items-center justify-center bg-white border border-slate-100 rounded-lg text-slate-400 hover:text-slate-900 transition-all">
+<span class="material-symbols-outlined">chevron_left</span>
+</button>
+<button class="w-10 h-10 flex items-center justify-center bg-primary text-white font-bold rounded-lg">1</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white border border-slate-100 rounded-lg text-slate-700 font-bold hover:bg-slate-50">2</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white border border-slate-100 rounded-lg text-slate-700 font-bold hover:bg-slate-50">3</button>
+<button class="w-10 h-10 flex items-center justify-center bg-white border border-slate-100 rounded-lg text-slate-400 hover:text-slate-900 transition-all">
+<span class="material-symbols-outlined">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</main>
+</div>
+</body></html>

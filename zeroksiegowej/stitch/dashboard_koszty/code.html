@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#dae2fd",
+              "primary-fixed": "#dbe1ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-container": "#5c647a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "error": "#ba1a1a",
+              "tertiary": "#006242",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-container": "#eeefff",
+              "surface-tint": "#0053db",
+              "secondary-fixed": "#dae2fd",
+              "inverse-surface": "#2d3133",
+              "tertiary-container": "#007d55",
+              "on-primary-fixed-variant": "#003ea8",
+              "tertiary-fixed-dim": "#4edea3",
+              "primary": "#004ac6",
+              "on-tertiary-fixed": "#002113",
+              "outline-variant": "#c3c6d7",
+              "on-secondary-fixed": "#131b2e",
+              "primary-container": "#2563eb",
+              "secondary": "#565e74",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b4c5ff",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#bec6e0",
+              "tertiary-fixed": "#6ffbbe",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#bdffdb",
+              "on-primary-fixed": "#00174b",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3f465c",
+              "outline": "#737686",
+              "on-surface-variant": "#434655",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .bg-gradient-primary {
+            background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+    </style>
+</head>
+<body class="text-on-surface antialiased">
+<!-- SideNavBar -->
+<aside class="flex flex-col fixed left-0 top-0 h-full p-4 bg-slate-50 dark:bg-slate-900 h-screen w-64 border-r-0 z-50">
+<div class="mb-8 px-4 flex items-center gap-3">
+<div class="w-8 h-8 rounded-lg bg-gradient-primary flex items-center justify-center text-white shadow-lg">
+<span class="material-symbols-outlined text-sm" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div>
+<h1 class="text-xl font-extrabold tracking-tighter text-slate-900 dark:text-white leading-none">ZeroKsięgowa</h1>
+<p class="text-[10px] font-bold uppercase tracking-widest text-slate-400 mt-1">Financial Intel</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-['Inter'] antialiased tracking-tight text-sm font-semibold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Główne</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-['Inter'] antialiased tracking-tight text-sm font-semibold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Faktury</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-['Inter'] antialiased tracking-tight text-sm font-semibold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Podatki</span>
+</a>
+<!-- Active Tab: Koszty -->
+<a class="flex items-center gap-3 px-4 py-3 bg-slate-200/50 dark:bg-blue-600/10 text-blue-600 dark:text-blue-400 rounded-xl font-['Inter'] antialiased tracking-tight text-sm font-semibold active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Koszty</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 font-['Inter'] antialiased tracking-tight text-sm font-semibold transition-colors duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy">smart_toy</span>
+<span>Asystent_AI</span>
+</a>
+</nav>
+<div class="mt-auto space-y-4">
+<button class="w-full bg-gradient-primary text-white py-4 rounded-xl font-bold text-sm shadow-[0px_20px_40px_rgba(37,99,235,0.2)] active:scale-95 transition-transform">
+                Nowa Faktura
+            </button>
+<div class="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 text-sm font-semibold hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="settings">settings</span>
+<span>Ustawienia</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 text-sm font-semibold hover:text-slate-900 transition-colors" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+<span>Wyloguj</span>
+</a>
+</div>
+</div>
+</aside>
+<!-- TopNavBar -->
+<header class="flex items-center justify-between w-full h-16 px-8 sticky top-0 z-40 ml-64 max-w-[calc(100%-16rem)] bg-white/70 dark:bg-slate-950/70 backdrop-blur-xl border-b border-slate-100 dark:border-slate-800/50">
+<div class="flex items-center gap-4 bg-surface-container-low px-4 py-2 rounded-xl w-96">
+<span class="material-symbols-outlined text-slate-400" data-icon="search">search</span>
+<input class="bg-transparent border-none text-sm focus:ring-0 w-full font-medium" placeholder="Szukaj kosztów, dokumentów..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4">
+<button class="text-slate-500 hover:text-blue-600 transition-all relative">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full border-2 border-white"></span>
+</button>
+<button class="text-slate-500 hover:text-blue-600 transition-all">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+<button class="px-5 py-2 rounded-full bg-secondary-container text-on-secondary-fixed text-sm font-bold active:scale-95 transition-transform">
+                Upgrade
+            </button>
+<div class="flex items-center gap-3 pl-4 border-l border-slate-100">
+<div class="text-right hidden sm:block">
+<p class="text-sm font-bold leading-none">Marek Nowak</p>
+<p class="text-[10px] text-slate-400 font-semibold uppercase tracking-wider mt-1">Premium Plan</p>
+</div>
+<img alt="User Avatar" class="w-9 h-9 rounded-full ring-2 ring-white" data-alt="Professional user profile avatar small thumbnail" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDYAzlfTZm1VzXR3h3tyZsLp-WETraGNv-KHDTA_1VTSttW5dPpo7dJeaA9jtSfE9THFApigw4UT5BNfzJZhLtEG4qUgkRaoH_ci5gosnQOLVtBZSuV3XVnhb0cwKQWltL_twByKO6GeHdnyE-Y_pt8jLqz-DAPmLXfL6dQvOY5awqQkhgk8JaBY6NtJguKuwvjXPbXFbu3I-PVoNKNcnGm_aqQZXBIKsmeqRdZv4HnK6s_-d68aTVSp6jmum44naJpdvB3Z4VZpWg"/>
+</div>
+</div>
+</header>
+<!-- Main Content -->
+<main class="ml-64 p-8 max-w-[1600px]">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+<div class="space-y-2">
+<h2 class="text-[3.5rem] font-extrabold tracking-[-0.04em] leading-[1.1] text-slate-900">Koszty Operacyjne</h2>
+<p class="text-slate-500 font-medium text-lg">Przegląd wydatków i inteligentna kategoryzacja dokumentów.</p>
+</div>
+<div class="flex gap-4">
+<div class="px-6 py-4 glass-card rounded-2xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)] border border-white/50">
+<p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Status OCR</p>
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary-fixed-dim animate-pulse shadow-[0_0_8px_#4edea3]"></span>
+<span class="text-sm font-bold text-slate-700">System Gotowy</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-8">
+<!-- Highlight Cards: Glassmorphism -->
+<div class="col-span-12 lg:col-span-4 grid grid-rows-2 gap-8">
+<div class="glass-card p-8 rounded-2xl relative overflow-hidden shadow-[0px_20px_40px_rgba(15,23,42,0.06)] border border-white">
+<div class="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full -mr-16 -mt-16 blur-3xl"></div>
+<span class="material-symbols-outlined text-primary mb-4 p-3 bg-primary/10 rounded-xl inline-block" data-icon="trending_up">trending_up</span>
+<h3 class="text-slate-500 font-semibold mb-2">Wydatki w tym miesiącu</h3>
+<p class="text-4xl font-extrabold text-slate-900">14 850,00 <span class="text-xl">PLN</span></p>
+<div class="mt-4 flex items-center gap-2 text-error text-sm font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="north_east">north_east</span>
+<span>+12.5% vs poprz. miesiąc</span>
+</div>
+</div>
+<div class="glass-card p-8 rounded-2xl relative overflow-hidden shadow-[0px_20px_40px_rgba(15,23,42,0.06)] border border-white">
+<div class="absolute bottom-0 left-0 w-32 h-32 bg-tertiary/5 rounded-full -ml-16 -mb-16 blur-3xl"></div>
+<span class="material-symbols-outlined text-tertiary mb-4 p-3 bg-tertiary/10 rounded-xl inline-block" data-icon="account_balance">account_balance</span>
+<h3 class="text-slate-500 font-semibold mb-2">Potencjalne oszczędności VAT</h3>
+<p class="text-4xl font-extrabold text-slate-900">3 415,50 <span class="text-xl">PLN</span></p>
+<div class="mt-4 flex items-center gap-2 text-tertiary text-sm font-bold">
+<span class="material-symbols-outlined text-sm" data-icon="verified">verified</span>
+<span>Optymalizacja aktywna</span>
+</div>
+</div>
+</div>
+<!-- OCR Upload Area -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container-lowest p-8 rounded-2xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)] relative group">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xl font-bold text-slate-900">Szybkie dodawanie</h3>
+<p class="text-sm text-slate-400 font-medium">Przeciągnij PDF, JPG lub PNG</p>
+</div>
+<div class="h-64 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center gap-4 bg-slate-50 group-hover:bg-slate-100 transition-colors cursor-pointer border-none relative overflow-hidden">
+<!-- Faux background for modern feel -->
+<div class="absolute inset-0 opacity-10" data-alt="Subtle dot pattern background for upload area" style="background-image: radial-gradient(#2563eb 0.5px, transparent 0.5px); background-size: 16px 16px;"></div>
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-16 h-16 bg-white rounded-2xl shadow-xl flex items-center justify-center mb-4 text-primary">
+<span class="material-symbols-outlined text-3xl" data-icon="cloud_upload">cloud_upload</span>
+</div>
+<p class="text-slate-900 font-bold text-lg">Prześlij nowe faktury/rachunki</p>
+<p class="text-slate-500 text-sm mt-1">Obsługa OCR AI rozpoznaje dane w 2 sekundy</p>
+<button class="mt-6 px-8 py-3 bg-slate-900 text-white rounded-xl font-bold text-sm shadow-xl active:scale-95 transition-transform">
+                            Wybierz pliki
+                        </button>
+</div>
+</div>
+</div>
+<!-- Category Breakdown -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-lowest p-8 rounded-2xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)]">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xl font-bold text-slate-900">Podział kategorii</h3>
+<button class="text-blue-600 font-bold text-sm hover:underline">Szczegóły</button>
+</div>
+<div class="space-y-6">
+<div class="group">
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-blue-500" data-icon="computer">computer</span>
+<span class="font-bold text-slate-700">Software &amp; IT</span>
+</div>
+<span class="font-bold text-slate-900">4 200,00 PLN</span>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div class="bg-blue-600 h-full w-[45%] rounded-full"></div>
+</div>
+</div>
+<div class="group">
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-orange-500" data-icon="directions_car">directions_car</span>
+<span class="font-bold text-slate-700">Samochód</span>
+</div>
+<span class="font-bold text-slate-900">2 850,00 PLN</span>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div class="bg-orange-500 h-full w-[25%] rounded-full"></div>
+</div>
+</div>
+<div class="group">
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-purple-500" data-icon="business_center">business_center</span>
+<span class="font-bold text-slate-700">Biuro</span>
+</div>
+<span class="font-bold text-slate-900">1 420,00 PLN</span>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div class="bg-purple-500 h-full w-[15%] rounded-full"></div>
+</div>
+</div>
+<div class="group">
+<div class="flex justify-between items-center mb-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-emerald-500" data-icon="shopping_basket">shopping_basket</span>
+<span class="font-bold text-slate-700">Pozostałe</span>
+</div>
+<span class="font-bold text-slate-900">980,00 PLN</span>
+</div>
+<div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+<div class="bg-emerald-500 h-full w-[10%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Spending Trend (Faux Chart) -->
+<div class="col-span-12 lg:col-span-7 bg-surface-container-lowest p-8 rounded-2xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)]">
+<div class="flex items-center justify-between mb-12">
+<div>
+<h3 class="text-xl font-bold text-slate-900">Trend wydatków</h3>
+<p class="text-slate-400 text-sm font-medium">Ostatnie 6 miesięcy</p>
+</div>
+<div class="flex bg-slate-100 p-1 rounded-lg">
+<button class="px-4 py-1.5 bg-white text-slate-900 text-xs font-bold rounded shadow-sm">Miesiąc</button>
+<button class="px-4 py-1.5 text-slate-500 text-xs font-bold">Kwartał</button>
+</div>
+</div>
+<div class="h-48 flex items-end justify-between gap-4 px-2">
+<div class="flex-1 flex flex-col items-center gap-4">
+<div class="w-full bg-slate-100 h-24 rounded-t-lg relative group">
+<div class="absolute bottom-0 w-full bg-blue-100 h-[60%] rounded-t-lg transition-all"></div>
+</div>
+<span class="text-xs font-bold text-slate-400">STY</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-4">
+<div class="w-full bg-slate-100 h-32 rounded-t-lg relative">
+<div class="absolute bottom-0 w-full bg-blue-200 h-[75%] rounded-t-lg"></div>
+</div>
+<span class="text-xs font-bold text-slate-400">LUT</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-4">
+<div class="w-full bg-slate-100 h-28 rounded-t-lg relative">
+<div class="absolute bottom-0 w-full bg-blue-300 h-[40%] rounded-t-lg"></div>
+</div>
+<span class="text-xs font-bold text-slate-400">MAR</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-4">
+<div class="w-full bg-slate-100 h-40 rounded-t-lg relative">
+<div class="absolute bottom-0 w-full bg-blue-400 h-[90%] rounded-t-lg"></div>
+</div>
+<span class="text-xs font-bold text-slate-400">KWI</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-4">
+<div class="w-full bg-slate-100 h-36 rounded-t-lg relative">
+<div class="absolute bottom-0 w-full bg-blue-500 h-[80%] rounded-t-lg"></div>
+</div>
+<span class="text-xs font-bold text-slate-400">MAJ</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-4">
+<div class="w-full bg-slate-100 h-44 rounded-t-lg relative">
+<div class="absolute bottom-0 w-full bg-blue-600 h-[100%] rounded-t-lg"></div>
+</div>
+<span class="text-xs font-bold text-slate-900">CZE</span>
+</div>
+</div>
+</div>
+<!-- Recently Scanned Expenses -->
+<div class="col-span-12 bg-surface-container-lowest p-8 rounded-2xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)]">
+<div class="flex items-center justify-between mb-10">
+<h3 class="text-xl font-bold text-slate-900">Ostatnio przetworzone</h3>
+<div class="flex items-center gap-4">
+<button class="flex items-center gap-2 text-slate-500 font-bold text-sm bg-slate-50 px-4 py-2 rounded-xl">
+<span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span>
+                            Filtruj
+                        </button>
+<button class="text-blue-600 font-bold text-sm">Pokaż wszystkie</button>
+</div>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left border-collapse">
+<thead>
+<tr class="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] border-none">
+<th class="pb-6 px-4">Dokument</th>
+<th class="pb-6 px-4">Data</th>
+<th class="pb-6 px-4">Kontrahent</th>
+<th class="pb-6 px-4">Kategoria</th>
+<th class="pb-6 px-4">Kwota Brutto</th>
+<th class="pb-6 px-4">Status</th>
+<th class="pb-6 px-4 text-right">Akcje</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-slate-50">
+<tr class="group hover:bg-slate-50 transition-colors">
+<td class="py-6 px-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-blue-100 rounded-lg flex items-center justify-center text-blue-600">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<span class="font-bold text-slate-900">F/2023/06/124</span>
+</div>
+</td>
+<td class="py-6 px-4 text-slate-600 font-medium">12 Cze 2023</td>
+<td class="py-6 px-4">
+<span class="font-bold text-slate-900">Amazon Web Services</span>
+</td>
+<td class="py-6 px-4">
+<span class="px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider rounded-full">Software</span>
+</td>
+<td class="py-6 px-4 font-extrabold text-slate-900">1 240,50 PLN</td>
+<td class="py-6 px-4">
+<div class="flex items-center gap-2 text-tertiary">
+<span class="material-symbols-outlined text-sm" data-icon="check_circle" data-weight="fill">check_circle</span>
+<span class="text-xs font-bold">Zatwierdzone</span>
+</div>
+</td>
+<td class="py-6 px-4 text-right">
+<button class="text-slate-300 hover:text-slate-900 transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 transition-colors">
+<td class="py-6 px-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-orange-100 rounded-lg flex items-center justify-center text-orange-600">
+<span class="material-symbols-outlined" data-icon="receipt">receipt</span>
+</div>
+<span class="font-bold text-slate-900">PAR/9923/23</span>
+</div>
+</td>
+<td class="py-6 px-4 text-slate-600 font-medium">10 Cze 2023</td>
+<td class="py-6 px-4">
+<span class="font-bold text-slate-900">Orlen S.A.</span>
+</td>
+<td class="py-6 px-4">
+<span class="px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider rounded-full">Transport</span>
+</td>
+<td class="py-6 px-4 font-extrabold text-slate-900">320,00 PLN</td>
+<td class="py-6 px-4">
+<div class="flex items-center gap-2 text-blue-600">
+<span class="material-symbols-outlined text-sm" data-icon="schedule">schedule</span>
+<span class="text-xs font-bold">Weryfikacja OCR</span>
+</div>
+</td>
+<td class="py-6 px-4 text-right">
+<button class="text-slate-300 hover:text-slate-900 transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+<tr class="group hover:bg-slate-50 transition-colors">
+<td class="py-6 px-4">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 bg-purple-100 rounded-lg flex items-center justify-center text-purple-600">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+</div>
+<span class="font-bold text-slate-900">FV/BIURO/04</span>
+</div>
+</td>
+<td class="py-6 px-4 text-slate-600 font-medium">08 Cze 2023</td>
+<td class="py-6 px-4">
+<span class="font-bold text-slate-900">IKEA Retail</span>
+</td>
+<td class="py-6 px-4">
+<span class="px-3 py-1 bg-slate-100 text-slate-600 text-[10px] font-bold uppercase tracking-wider rounded-full">Biuro</span>
+</td>
+<td class="py-6 px-4 font-extrabold text-slate-900">2 150,00 PLN</td>
+<td class="py-6 px-4">
+<div class="flex items-center gap-2 text-error">
+<span class="material-symbols-outlined text-sm" data-icon="error_outline">error_outline</span>
+<span class="text-xs font-bold">Błąd odczytu</span>
+</div>
+</td>
+<td class="py-6 px-4 text-right">
+<button class="text-slate-300 hover:text-slate-900 transition-colors">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+<!-- Floating Action Button (Contextual for dashboard) -->
+<div class="fixed bottom-8 right-8 z-50">
+<button class="w-14 h-14 bg-gradient-primary rounded-2xl flex items-center justify-center text-white shadow-[0px_20px_40px_rgba(37,99,235,0.4)] hover:scale-110 active:scale-90 transition-all">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</div>
+</body></html>

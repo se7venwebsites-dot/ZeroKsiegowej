@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html class="light" lang="pl">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Cennik - ZeroKsięgowej</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "surface-container-low": "#f2f4f6",
+                  "surface-container-high": "#e6e8ea",
+                  "on-tertiary-fixed": "#002113",
+                  "error-container": "#ffdad6",
+                  "on-surface-variant": "#434655",
+                  "surface-container": "#eceef0",
+                  "primary-fixed-dim": "#b4c5ff",
+                  "secondary-fixed-dim": "#bec6e0",
+                  "surface-container-lowest": "#ffffff",
+                  "surface": "#f7f9fb",
+                  "primary": "#004ac6",
+                  "on-surface": "#191c1e",
+                  "surface-bright": "#f7f9fb",
+                  "surface-variant": "#e0e3e5",
+                  "error": "#ba1a1a",
+                  "tertiary-container": "#007d55",
+                  "inverse-on-surface": "#eff1f3",
+                  "secondary": "#565e74",
+                  "inverse-surface": "#2d3133",
+                  "on-error": "#ffffff",
+                  "on-secondary-container": "#5c647a",
+                  "surface-container-highest": "#e0e3e5",
+                  "on-secondary-fixed-variant": "#3f465c",
+                  "on-tertiary-fixed-variant": "#005236",
+                  "on-primary": "#ffffff",
+                  "tertiary-fixed-dim": "#4edea3",
+                  "outline-variant": "#c3c6d7",
+                  "on-primary-fixed": "#00174b",
+                  "tertiary-fixed": "#6ffbbe",
+                  "on-error-container": "#93000a",
+                  "on-background": "#191c1e",
+                  "on-primary-fixed-variant": "#003ea8",
+                  "surface-dim": "#d8dadc",
+                  "on-secondary-fixed": "#131b2e",
+                  "on-primary-container": "#eeefff",
+                  "primary-fixed": "#dbe1ff",
+                  "on-tertiary": "#ffffff",
+                  "surface-tint": "#0053db",
+                  "secondary-container": "#dae2fd",
+                  "secondary-fixed": "#dae2fd",
+                  "inverse-primary": "#b4c5ff",
+                  "background": "#f7f9fb",
+                  "tertiary": "#006242",
+                  "outline": "#737686",
+                  "primary-container": "#2563eb",
+                  "on-secondary": "#ffffff",
+                  "on-tertiary-container": "#bdffdb"
+                },
+                fontFamily: {
+                  "headline": ["Inter"],
+                  "body": ["Inter"],
+                  "label": ["Inter"]
+                },
+                borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "1rem", "2xl": "1.5rem", "full": "9999px"},
+              },
+            },
+          }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        body { font-family: 'Inter', sans-serif; background-color: #f7f9fb; }
+        
+        /* Spinner */
+        .loader {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border-left-color: #004ac6;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="text-on-surface antialiased">
+    <!-- Top Navigation -->
+    <nav class="fixed top-0 w-full z-50 bg-white/70 backdrop-blur-xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)]">
+        <div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+            <div onclick="window.location.href='index.html'" class="text-xl font-extrabold tracking-tighter text-slate-900 cursor-pointer">ZeroKsięgowej</div>
+            <div class="hidden md:flex space-x-8 items-center">
+                <a class="text-slate-600 font-medium hover:text-blue-500 transition-colors" href="index.html">Jak to działa</a>
+                <a class="text-blue-600 font-bold border-b-2 border-blue-600 transition-colors" href="#">Cennik</a>
+            </div>
+            <div class="flex items-center gap-4" id="navActions">
+                <a class="text-slate-600 font-medium hover:text-blue-700 transition-colors mr-4" href="login.html">Logowanie</a>
+                <button onclick="window.location.href='register.html'" class="bg-primary text-on-primary px-6 py-2.5 rounded-xl font-bold tracking-tight scale-95 active:scale-90 transition-transform shadow-lg shadow-primary/20">
+                    Zacznij darmowy okres próbny
+                </button>
+            </div>
+        </div>
+    </nav>
+    <script>
+        // Check session for header - will be initialized after Firebase loads
+        async function checkNav() {
+            try {
+                const user = firebase.auth().currentUser;
+                if (user) {
+                    document.getElementById('navActions').innerHTML = `
+                        <button onclick="window.location.href='dashboard.html'" class="text-slate-600 font-bold hover:text-primary transition-all flex items-center gap-2">
+                            <span class="material-symbols-outlined">dashboard</span> Panel Sterowania
+                        </button>
+                    `;
+                }
+            } catch(e) { /* Firebase not loaded yet */ }
+        }
+    </script>
+
+    <main class="pt-32 pb-24 px-6 max-w-7xl mx-auto">
+        <!-- Hero & Switcher Section -->
+        <header class="text-center mb-16 space-y-6">
+            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight text-on-surface mb-4">
+                Prosty cennik dla <span class="text-primary">inteligentnych</span> firm
+            </h1>
+            <p class="text-lg text-on-surface-variant max-w-2xl mx-auto leading-relaxed">
+                Wybierz plan dopasowany do skali Twojej działalności. Bez ukrytych kosztów, z pełnym wsparciem AI.
+            </p>
+            
+            <!-- Price Switcher -->
+            <div class="flex flex-col items-center mt-12 gap-4">
+                <div class="inline-flex items-center p-1.5 bg-surface-container-high rounded-full relative">
+                    <button id="monthlyBtn" onclick="toggleBilling('monthly')" class="px-8 py-2.5 rounded-full text-sm font-bold transition-all bg-surface-container-lowest text-primary shadow-sm">Miesięcznie</button>
+                    <button id="yearlyBtn" onclick="toggleBilling('yearly')" class="px-8 py-2.5 rounded-full text-sm font-semibold text-on-surface-variant hover:text-on-surface transition-all">Rocznie</button>
+                    <!-- Floating Promo Badge -->
+                    <div class="absolute -top-10 -right-24 md:-right-32 animate-bounce">
+                        <span class="bg-tertiary text-on-tertiary-container text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest shadow-lg shadow-tertiary/20">2 miesiące GRATIS</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Pricing Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 items-end mb-24">
+            <!-- Plan: Starter -->
+            <div class="bg-surface-container-lowest p-10 rounded-2xl flex flex-col h-full border border-transparent hover:border-outline-variant/15 transition-all">
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-on-surface mb-2">Starter</h3>
+                    <p class="text-sm text-on-surface-variant font-medium">Dla wolnych strzelców</p>
+                </div>
+                <div class="mb-8 flex items-baseline gap-1">
+                    <span id="starterPrice" class="text-4xl font-extrabold tracking-tighter">49 PLN</span>
+                    <span class="text-on-surface-variant text-sm font-medium">/ mies.</span>
+                </div>
+                <ul class="space-y-5 mb-10 flex-grow">
+                    <li class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                        <span class="text-sm text-on-surface-variant">Do 10 faktur miesięcznie</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                        <span class="text-sm text-on-surface-variant">Podstawowy moduł kosztów</span>
+                    </li>
+                </ul>
+                <button onclick="selectPlan('Starter')" class="w-full py-4 rounded-xl font-bold bg-surface-container-highest text-on-surface hover:bg-surface-container-high transition-all">
+                    Wybierz Starter
+                </button>
+            </div>
+
+            <!-- Plan: Automatyzacja (Recommended) -->
+            <div class="relative bg-white p-12 rounded-2xl flex flex-col h-full shadow-[0px_32px_64px_rgba(0,74,198,0.08)] border-2 border-primary scale-105 z-10">
+                <div class="absolute -top-4 left-1/2 -translate-x-1/2 bg-primary px-6 py-1.5 rounded-full">
+                    <span class="text-white text-xs font-bold uppercase tracking-wider">Najlepszy wybór</span>
+                </div>
+                <div class="mb-8">
+                    <h3 class="text-2xl font-extrabold text-on-surface mb-2">Automatyzacja</h3>
+                    <p class="text-sm text-primary font-semibold">Rekomendowany dla firm</p>
+                </div>
+                <div class="mb-8 flex items-baseline gap-1">
+                    <span id="autoPrice" class="text-5xl font-extrabold tracking-tighter text-on-surface">129 PLN</span>
+                    <span class="text-on-surface-variant text-sm font-medium">/ mies.</span>
+                </div>
+                <ul class="space-y-5 mb-10 flex-grow">
+                    <li class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        <span class="text-sm font-semibold text-on-surface">Nielimitowane faktury</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        <span class="text-sm font-semibold text-on-surface">Pełna automatyzacja AI</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl" style="font-variation-settings: 'FILL' 1;">verified</span>
+                        <span class="text-sm font-semibold text-on-surface">Integracja z bankiem</span>
+                    </li>
+                </ul>
+                <button onclick="selectPlan('Automatyzacja')" class="w-full py-5 rounded-xl font-extrabold bg-gradient-to-r from-primary to-primary-container text-white shadow-lg shadow-primary/25 hover:opacity-90 transition-all">
+                    Rozpocznij teraz
+                </button>
+            </div>
+
+            <!-- Plan: Enterprise -->
+            <div class="bg-surface-container-lowest p-10 rounded-2xl flex flex-col h-full border border-transparent hover:border-outline-variant/15 transition-all">
+                <div class="mb-8">
+                    <h3 class="text-xl font-bold text-on-surface mb-2">Enterprise</h3>
+                    <p class="text-sm text-on-surface-variant font-medium">Dla dużych spółek</p>
+                </div>
+                <div class="mb-8 flex items-baseline gap-1">
+                    <span id="enterprisePrice" class="text-4xl font-extrabold tracking-tighter">499 PLN</span>
+                    <span class="text-on-surface-variant text-sm font-medium">/ mies.</span>
+                </div>
+                <ul class="space-y-5 mb-10 flex-grow">
+                    <li class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                        <span class="text-sm text-on-surface-variant">Wszystko z planu Auto</span>
+                    </li>
+                    <li class="flex items-start gap-3">
+                        <span class="material-symbols-outlined text-primary text-xl">check_circle</span>
+                        <span class="text-sm text-on-surface-variant">Obsługa Kadr i Płac</span>
+                    </li>
+                </ul>
+                <button onclick="selectPlan('Enterprise')" class="w-full py-4 rounded-xl font-bold bg-surface-container-highest text-on-surface hover:bg-surface-container-high transition-all">
+                    Skontaktuj się
+                </button>
+            </div>
+        </div>
+    </main>
+
+    <!-- Payment Overlay -->
+    <div id="paymentModal" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] hidden items-center justify-center p-6">
+        <div class="bg-white rounded-3xl p-10 max-w-sm w-full text-center shadow-2xl">
+            <div id="paymentLoading">
+                <div class="flex justify-center mb-6">
+                    <div class="loader"></div>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">Łączenie z bankiem...</h3>
+                <p class="text-slate-500">Proszę nie odświeżać strony.</p>
+            </div>
+            <div id="paymentSuccess" class="hidden">
+                <div class="flex justify-center mb-6">
+                    <span class="material-symbols-outlined text-tertiary text-6xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+                </div>
+                <h3 class="text-2xl font-bold mb-4">Płatność udana!</h3>
+                <p class="text-slate-500 mb-8">Twój plan został aktywowany.</p>
+                <button onclick="window.location.href='dashboard.html?v=' + Date.now()" class="w-full py-4 bg-primary text-white rounded-xl font-bold">Przejdź do Dashboardu</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyARy3vOeAQ2LG6xMyuzWnJ2rpH_I6ubGlM",
+            authDomain: "zeroksiegowej.firebaseapp.com",
+            projectId: "zeroksiegowej",
+            storageBucket: "zeroksiegowej.firebasestorage.app",
+            messagingSenderId: "763679005684",
+            appId: "1:763679005684:web:a19ce63cc3530cf256b7a1"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        let selectedPlanName = 'STARTER';
+        let currentBilling = 'monthly';
+        const prices = {
+            monthly: { starter: '49', auto: '129', enterprise: '499' },
+            yearly:  { starter: '39', auto: '99',  enterprise: '399' }
+        };
+
+        // Update nav when session is known
+        auth.onAuthStateChanged(user => {
+            if (user) {
+                document.getElementById('navActions').innerHTML = `
+                    <button onclick="window.location.href='dashboard.html?v=' + Date.now()" class="text-slate-600 font-bold hover:text-primary transition-all flex items-center gap-2">
+                        <span class="material-symbols-outlined">dashboard</span> Panel Sterowania
+                    </button>
+                `;
+            }
+        });
+
+        function toggleBilling(period) {
+            currentBilling = period;
+            const isMonthly = period === 'monthly';
+            const mBtn = document.getElementById('monthlyBtn');
+            const yBtn = document.getElementById('yearlyBtn');
+            if (isMonthly) {
+                mBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+                yBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+            } else {
+                yBtn.classList.add('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+                mBtn.classList.remove('bg-surface-container-lowest', 'text-primary', 'shadow-sm');
+            }
+            animateValue('starterPrice', prices[period].starter);
+            animateValue('autoPrice', prices[period].auto);
+            animateValue('enterprisePrice', prices[period].enterprise);
+        }
+
+        function animateValue(id, value) {
+            document.getElementById(id).innerHTML = value + ' PLN';
+        }
+
+        async function selectPlan(planName) {
+            const user = auth.currentUser;
+            if (!user) {
+                alert('Zaloguj się, aby wybrać plan.');
+                window.location.href = 'login.html';
+                return;
+            }
+            selectedPlanName = planName;
+            showPaymentModal();
+        }
+
+        function showPaymentModal() {
+            const modal = document.getElementById('paymentModal');
+            const loading = document.getElementById('paymentLoading');
+            const success = document.getElementById('paymentSuccess');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            loading.classList.remove('hidden');
+            success.classList.add('hidden');
+
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                success.classList.remove('hidden');
+
+                try {
+                    const user = auth.currentUser;
+                    if (user) {
+                        let dbPlan = selectedPlanName.toUpperCase();
+                        if (dbPlan === 'AUTOMATYZACJA') dbPlan = 'PRO';
+                        
+                        // Awaryjny zapis w pamięci przeglądarki (omija blokady serwera Firebase)
+                        localStorage.setItem('zk_last_plan', dbPlan);
+                        
+                        // Zapis weryfikacyjny w tle
+                        db.collection('profiles').doc(user.uid).set({
+                            plan: dbPlan
+                        }, { merge: true }).catch(err => console.error("Firebase Sync Error", err));
+                    }
+                } catch (err) {
+                    console.error('Błąd aktualizacji planu:', err);
+                }
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html class="light" lang="pl">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Rejestracja - ZeroKsięgowa AI</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <script id="tailwind-config">
+          tailwind.config = {
+            darkMode: "class",
+            theme: {
+              extend: {
+                colors: {
+                  "primary": "#004ac6",
+                  "surface": "#f7f9fb"
+                },
+                fontFamily: { "body": ["Inter"] },
+                borderRadius: { "xl": "1rem" }
+              }
+            }
+          }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .glass-panel { background: rgba(255, 255, 255, 0.7); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.3); }
+        .bg-registration-hero { background: linear-gradient(135deg, #004ac6 0%, #2563eb 100%); }
+    </style>
+</head>
+<body class="bg-surface font-body text-slate-900 antialiased">
+    <main class="min-h-screen flex flex-col md:flex-row">
+        <!-- Left Side: Editorial Content & Benefits -->
+        <section class="hidden md:flex md:w-5/12 bg-registration-hero text-white p-12 lg:p-20 flex-col justify-between relative overflow-hidden">
+            <div class="z-10">
+                <div class="text-2xl font-extrabold tracking-tighter mb-16 cursor-pointer" onclick="window.location.href='index.html'">ZeroKsięgowa</div>
+                <h1 class="text-5xl lg:text-6xl font-extrabold tracking-tighter leading-tight mb-8">
+                    Przyszłość Twoich finansów zaczyna się tutaj.
+                </h1>
+                <p class="text-xl text-blue-100 opacity-90 max-w-md font-medium leading-relaxed">
+                    Dołącz do tysięcy nowoczesnych przedsiębiorców, którzy zautomatyzowali swoją księgowość z AI.
+                </p>
+            </div>
+            
+            <div class="z-10 grid gap-4 mt-12">
+                <div class="glass-panel p-6 rounded-2xl flex items-center gap-5">
+                    <div class="bg-emerald-500 text-white p-3 rounded-xl shadow-lg">
+                        <span class="material-symbols-outlined text-lg">event_available</span>
+                    </div>
+                    <div>
+                        <div class="font-bold text-lg">Darmowe 30 dni</div>
+                        <div class="text-sm opacity-80">Pełny dostęp bez zobowiązań</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Side: Registration Form -->
+        <section class="flex-1 flex items-center justify-center p-6 md:p-12 lg:p-24 bg-white">
+            <div class="w-full max-w-xl">
+                <div class="mb-10">
+                    <h2 class="text-3xl font-extrabold tracking-tight text-slate-900 mb-2">Załóż konto</h2>
+                    <p class="text-slate-500 font-medium">Uzupełnij dane, aby rozpocząć darmowy okres próbny.</p>
+                </div>
+
+                <form id="registerForm" class="space-y-8">
+                    <!-- Krok 1 -->
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-blue-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">KROK 1</span>
+                            <h3 class="text-lg font-bold tracking-tight">Dane użytkownika</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Imię i Nazwisko</label>
+                                <input id="regName" class="w-full bg-slate-50 border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-blue-600/10" placeholder="Jan Kowalski" type="text" required>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Email</label>
+                                <input id="regEmail" class="w-full bg-slate-50 border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-blue-600/10" placeholder="jan@firma.pl" type="email" required>
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Hasło (min. 6 znaków)</label>
+                            <input id="regPassword" class="w-full bg-slate-50 border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-blue-600/10" placeholder="••••••••" type="password" required minlength="6">
+                        </div>
+                    </div>
+
+                    <!-- Krok 2 -->
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3">
+                            <span class="bg-emerald-600 text-white text-[10px] font-bold px-3 py-1 rounded-full uppercase">KROK 2</span>
+                            <h3 class="text-lg font-bold tracking-tight">Dane firmy</h3>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">Nazwa Firmy</label>
+                                <input id="regCompany" class="w-full bg-slate-50 border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-blue-600/10" placeholder="Moja Firma Sp. z o.o." type="text" required>
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-[10px] font-bold uppercase tracking-widest text-slate-400">NIP</label>
+                                <input id="regNip" class="w-full bg-slate-50 border-none rounded-xl px-4 py-4 focus:ring-2 focus:ring-blue-600/10" placeholder="0000000000" type="text" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="errorAlert" class="hidden bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-xl text-sm font-medium mt-6"></div>
+
+                    <div class="pt-6">
+                        <button id="submitBtn" class="w-full bg-blue-600 text-white font-bold text-lg py-5 rounded-2xl shadow-xl shadow-blue-500/20 hover:opacity-95 transition-all active:scale-95" type="submit">
+                            Załóż darmowe konto
+                        </button>
+                    </div>
+                    <p class="text-center text-sm text-slate-500 font-medium mt-6">
+                        Masz już konto? <a href="login.html" class="text-blue-600 font-bold hover:underline">Zaloguj się</a>
+                    </p>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyARy3vOeAQ2LG6xMyuzWnJ2rpH_I6ubGlM",
+            authDomain: "zeroksiegowej.firebaseapp.com",
+            projectId: "zeroksiegowej",
+            storageBucket: "zeroksiegowej.firebasestorage.app",
+            messagingSenderId: "763679005684",
+            appId: "1:763679005684:web:a19ce63cc3530cf256b7a1"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+        // If already logged in, redirect
+        auth.onAuthStateChanged(user => {
+            if (user) window.location.href = 'dashboard.html';
+        });
+
+        document.getElementById('registerForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submitBtn');
+            btn.disabled = true;
+            btn.innerText = 'Tworzenie konta...';
+
+            const email = document.getElementById('regEmail').value.trim();
+            const password = document.getElementById('regPassword').value;
+            const company = document.getElementById('regCompany').value.trim();
+            const nip = document.getElementById('regNip').value.trim();
+            const fullName = document.getElementById('regName').value.trim();
+
+            try {
+                // Clear previous errors
+                document.getElementById('errorAlert').classList.add('hidden');
+                document.getElementById('errorAlert').innerText = '';
+
+                // 1. Create user
+                const userCred = await auth.createUserWithEmailAndPassword(email, password);
+                await userCred.user.updateProfile({ displayName: fullName });
+
+                // 2. Save profile to Firestore
+                await db.collection('profiles').doc(userCred.user.uid).set({
+                    company_name: company,
+                    nip: nip,
+                    plan: 'STARTER',
+                    email: email,
+                    created_at: firebase.firestore.FieldValue.serverTimestamp()
+                });
+
+                alert('Rejestracja pomyślna! Przekierowuję do dashboardu...');
+                window.location.href = 'dashboard.html';
+            } catch (err) {
+                console.error("Firebase Error:", err);
+                const errorBox = document.getElementById('errorAlert');
+                errorBox.classList.remove('hidden');
+                
+                // Provide helpful Polish messages for common Firebase errors
+                if (err.code === 'auth/email-already-in-use') {
+                    errorBox.innerText = 'Błąd: Ten adres e-mail jest już zarejestrowany.';
+                } else if (err.code === 'auth/operation-not-allowed') {
+                    errorBox.innerHTML = 'Błąd: Logowanie Email/Hasło nie jest włączone w Firebase.<br>Przejdź do Firebase Console → Authentication → Sign-in method, i włącz "Email/Password".';
+                } else if (err.message.includes('Missing or insufficient permissions')) {
+                    errorBox.innerHTML = 'Błąd: Brak uprawnień do zapisu w bazie danych.<br>Przejdź do Firebase Console → Firestore Database → Rules i ustaw reguły na tryb testowy (allow read, write: if true;).';
+                } else {
+                    errorBox.innerText = 'Błąd Firebase: ' + err.message;
+                }
+                
+                btn.disabled = false;
+                btn.innerText = 'Załóż darmowe konto';
+            }
+        });
+    </script>
+</body>
+</html>

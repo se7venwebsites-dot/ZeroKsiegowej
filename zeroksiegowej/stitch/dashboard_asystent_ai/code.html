@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pl"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-low": "#f2f4f6",
+              "secondary-container": "#dae2fd",
+              "primary-fixed": "#dbe1ff",
+              "background": "#f7f9fb",
+              "surface-bright": "#f7f9fb",
+              "on-secondary-container": "#5c647a",
+              "surface-container": "#eceef0",
+              "on-tertiary": "#ffffff",
+              "on-surface": "#191c1e",
+              "surface-dim": "#d8dadc",
+              "on-error": "#ffffff",
+              "error-container": "#ffdad6",
+              "surface": "#f7f9fb",
+              "surface-container-high": "#e6e8ea",
+              "inverse-on-surface": "#eff1f3",
+              "error": "#ba1a1a",
+              "tertiary": "#006242",
+              "surface-container-lowest": "#ffffff",
+              "on-primary-container": "#eeefff",
+              "surface-tint": "#0053db",
+              "secondary-fixed": "#dae2fd",
+              "inverse-surface": "#2d3133",
+              "tertiary-container": "#007d55",
+              "on-primary-fixed-variant": "#003ea8",
+              "tertiary-fixed-dim": "#4edea3",
+              "primary": "#004ac6",
+              "on-tertiary-fixed": "#002113",
+              "outline-variant": "#c3c6d7",
+              "on-secondary-fixed": "#131b2e",
+              "primary-container": "#2563eb",
+              "secondary": "#565e74",
+              "primary-fixed-dim": "#b4c5ff",
+              "on-tertiary-fixed-variant": "#005236",
+              "on-secondary": "#ffffff",
+              "inverse-primary": "#b4c5ff",
+              "on-error-container": "#93000a",
+              "secondary-fixed-dim": "#bec6e0",
+              "tertiary-fixed": "#6ffbbe",
+              "surface-variant": "#e0e3e5",
+              "on-tertiary-container": "#bdffdb",
+              "on-primary-fixed": "#00174b",
+              "on-background": "#191c1e",
+              "on-secondary-fixed-variant": "#3f465c",
+              "outline": "#737686",
+              "on-surface-variant": "#434655",
+              "surface-container-highest": "#e0e3e5",
+              "on-primary": "#ffffff"
+            },
+            fontFamily: {
+              "headline": ["Inter"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f7f9fb;
+        }
+    </style>
+</head>
+<body class="antialiased text-on-surface">
+<!-- SideNavBar Shell -->
+<aside class="flex flex-col fixed left-0 top-0 h-full p-4 h-screen w-64 border-r-0 bg-slate-50 dark:bg-slate-900 font-['Inter'] antialiased tracking-tight text-sm font-semibold z-50">
+<div class="flex items-center gap-3 px-2 mb-8">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center text-white shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div>
+<h1 class="text-xl font-extrabold tracking-tighter text-slate-900 dark:text-white leading-none">ZeroKsięgowa</h1>
+<p class="text-[10px] text-slate-500 font-medium tracking-widest uppercase mt-1">Financial Intel</p>
+</div>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 rounded-xl active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Główne</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 rounded-xl active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="description">description</span>
+<span>Faktury</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 rounded-xl active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Podatki</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 rounded-xl active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="receipt_long">receipt_long</span>
+<span>Koszty</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 bg-slate-200/50 dark:bg-blue-600/10 text-blue-600 dark:text-blue-400 rounded-xl active:scale-95 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="smart_toy" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+<span>Asystent_AI</span>
+</a>
+</nav>
+<div class="mt-auto space-y-1 pt-4 border-t border-slate-200 dark:border-slate-800">
+<button class="w-full bg-primary text-white py-3 rounded-xl font-bold mb-4 shadow-lg shadow-primary/20 hover:opacity-90 transition-opacity active:scale-95">
+                Nowa Faktura
+            </button>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+<span>Ustawienia</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-100 hover:bg-slate-200/50 dark:hover:bg-slate-800 transition-colors duration-200 rounded-xl" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span>Wyloguj</span>
+</a>
+</div>
+</aside>
+<!-- TopNavBar Shell -->
+<header class="flex items-center justify-between w-full h-16 px-8 sticky top-0 z-40 ml-64 max-w-[calc(100%-16rem)] bg-white/70 backdrop-blur-xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)]">
+<div class="flex items-center flex-1">
+<div class="relative w-full max-w-md">
+<span class="absolute left-3 top-1/2 -translate-y-1/2 material-symbols-outlined text-slate-400" data-icon="search">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-xl py-2 pl-10 pr-4 focus:ring-2 focus:ring-primary/20 text-sm font-medium" placeholder="Search intel..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="material-symbols-outlined text-slate-500 hover:text-primary transition-colors" data-icon="notifications">notifications</button>
+<button class="material-symbols-outlined text-slate-500 hover:text-primary transition-colors" data-icon="help_outline">help_outline</button>
+<div class="h-8 w-[1px] bg-slate-200"></div>
+<button class="px-4 py-2 bg-primary-container text-white rounded-lg text-sm font-bold hover:opacity-90 transition-opacity">Upgrade</button>
+<img alt="User Avatar" class="w-9 h-9 rounded-full object-cover border-2 border-white shadow-sm" data-alt="Professional user profile picture for financial app" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByC5vyInrSWA4Clv2Ou45Kjd6whVLU67NYrxVSwZYbhSQ2XarjteNBghLRjtGfiqLhqDEHEgdAlskAOTbRuV0a-2wHRDVyytyFU2KLXIYo4fuLBZ2i31jxZCEZ1G1adBi4zVEtqTMkuDdVNyKPRaq1qbAVeuMG4trWHp2ByJhexGwMlZNwaIbqA9qG-IiJNjSDPtdHv3lyxaMImnfsKNyUETh4CYX6qUfTtI_2lKX1ZxfuqinMzOH5er39eo7gdorOwOAP6FwXvU4"/>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="ml-64 p-8 min-h-[calc(100vh-4rem)] bg-background flex flex-col lg:flex-row gap-8">
+<!-- AI Chat Interface -->
+<section class="flex-1 flex flex-col gap-6">
+<header class="flex items-center justify-between">
+<div>
+<h2 class="text-3xl font-extrabold tracking-tighter text-slate-900">Asystent AI</h2>
+<p class="text-slate-500 font-medium">Twój osobisty architekt finansowy jest gotowy.</p>
+</div>
+<div class="flex items-center gap-2 px-3 py-1.5 bg-tertiary/10 rounded-full">
+<span class="relative flex h-2 w-2">
+<span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span>
+<span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span>
+</span>
+<span class="text-[11px] font-bold text-tertiary uppercase tracking-wider">System Online</span>
+</div>
+</header>
+<!-- Chat Window Container -->
+<div class="flex-1 glass-panel rounded-3xl shadow-[0px_20px_40px_rgba(15,23,42,0.06)] flex flex-col overflow-hidden border border-white/40">
+<!-- Chat Messages -->
+<div class="flex-1 p-6 space-y-8 overflow-y-auto">
+<!-- Bot Message -->
+<div class="flex gap-4 max-w-3xl">
+<div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shrink-0 shadow-lg">
+<span class="material-symbols-outlined text-white text-xl" data-icon="smart_toy" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="space-y-2">
+<div class="bg-white p-5 rounded-2xl rounded-tl-none shadow-sm border border-slate-100">
+<p class="text-on-surface leading-relaxed">Dzień dobry! Przeanalizowałem Twoje ostatnie faktury oraz koszty. Czy chcesz, abym wygenerował raport rentowności za ostatni miesiąc, czy może masz konkretne pytanie dotyczące Twoich podatków?</p>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase ml-1">Asystent AI • 09:41</span>
+</div>
+</div>
+<!-- User Message -->
+<div class="flex gap-4 max-w-3xl ml-auto flex-row-reverse">
+<div class="w-10 h-10 rounded-xl bg-primary flex items-center justify-center shrink-0 shadow-lg shadow-primary/20">
+<span class="material-symbols-outlined text-white text-xl" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+</div>
+<div class="space-y-2 text-right">
+<div class="bg-primary text-white p-5 rounded-2xl rounded-tr-none shadow-md">
+<p class="leading-relaxed">Analyze my car expenses and compare them to last quarter.</p>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase mr-1">Ty • 09:43</span>
+</div>
+</div>
+<!-- Bot Analysis Message -->
+<div class="flex gap-4 max-w-3xl">
+<div class="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center shrink-0 shadow-lg">
+<span class="material-symbols-outlined text-white text-xl" data-icon="smart_toy" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</div>
+<div class="space-y-4 w-full">
+<div class="bg-white p-5 rounded-2xl rounded-tl-none shadow-sm border border-slate-100">
+<p class="text-on-surface mb-4">Zestawienie wydatków na pojazd (Q3 vs Q4):</p>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl">
+<p class="text-[10px] font-bold text-slate-500 uppercase">Paliwo</p>
+<p class="text-xl font-bold text-slate-900">+12%</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl">
+<p class="text-[10px] font-bold text-slate-500 uppercase">Serwis</p>
+<p class="text-xl font-bold text-error">-45%</p>
+</div>
+</div>
+<p class="mt-4 text-sm text-slate-600">Twoje całkowite wydatki na auto wzrosły o 850 PLN ze względu na sezonową wymianę opon i ubezpieczenie AC.</p>
+</div>
+<span class="text-[10px] font-bold text-slate-400 uppercase ml-1">Asystent AI • 09:44</span>
+</div>
+</div>
+</div>
+<!-- Suggested Queries -->
+<div class="px-6 py-4 flex gap-3 overflow-x-auto no-scrollbar border-t border-slate-100/50">
+<button class="shrink-0 px-4 py-2 bg-white/50 border border-slate-200 rounded-full text-xs font-semibold text-slate-600 hover:bg-white hover:border-primary/50 transition-all active:scale-95">
+                        'How much can I spend to stay in the first tax bracket?'
+                    </button>
+<button class="shrink-0 px-4 py-2 bg-white/50 border border-slate-200 rounded-full text-xs font-semibold text-slate-600 hover:bg-white hover:border-primary/50 transition-all active:scale-95">
+                        'Generate a profitability report for last month'
+                    </button>
+<button class="shrink-0 px-4 py-2 bg-white/50 border border-slate-200 rounded-full text-xs font-semibold text-slate-600 hover:bg-white hover:border-primary/50 transition-all active:scale-95">
+                        'Analyze my car expenses'
+                    </button>
+</div>
+<!-- Input Area -->
+<div class="p-6 bg-white/50 backdrop-blur-md">
+<div class="relative flex items-center">
+<textarea class="w-full bg-white border-none rounded-2xl py-4 pl-6 pr-32 shadow-xl shadow-slate-200/50 focus:ring-2 focus:ring-primary/10 resize-none font-medium text-slate-700" placeholder="Zadaj pytanie swojemu asystentowi..." rows="1"></textarea>
+<div class="absolute right-3 flex items-center gap-2">
+<button class="p-2 text-slate-400 hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="attach_file">attach_file</span>
+</button>
+<button class="bg-primary text-white p-2.5 rounded-xl shadow-lg shadow-primary/30 hover:opacity-90 transition-opacity active:scale-95">
+<span class="material-symbols-outlined" data-icon="send" style="font-variation-settings: 'FILL' 1;">send</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Insights Side Panel -->
+<aside class="w-full lg:w-80 flex flex-col gap-6">
+<h3 class="text-xl font-bold tracking-tight text-slate-900 px-2">AI Insights</h3>
+<div class="space-y-4">
+<!-- Tip Card -->
+<div class="p-5 rounded-2xl bg-white border border-slate-100 shadow-[0px_10px_20px_rgba(15,23,42,0.03)] group hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-8 h-8 rounded-lg bg-blue-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-blue-600 text-lg" data-icon="lightbulb">lightbulb</span>
+</div>
+<span class="text-[10px] font-extrabold text-blue-600 uppercase tracking-widest">Financial Tip</span>
+</div>
+<p class="text-sm font-semibold text-slate-900 mb-1 leading-tight">Deduct more VAT</p>
+<p class="text-xs text-slate-500">Tip: You can deduct more VAT by documenting regular home office utilities. I found 3 missing receipts.</p>
+<button class="mt-4 text-xs font-bold text-primary flex items-center gap-1 group-hover:gap-2 transition-all">
+                        Apply suggestions <span class="material-symbols-outlined text-sm" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+<!-- Alert Card -->
+<div class="p-5 rounded-2xl bg-white border border-slate-100 shadow-[0px_10px_20px_rgba(15,23,42,0.03)] group hover:shadow-md transition-shadow">
+<div class="flex items-center gap-3 mb-3">
+<div class="w-8 h-8 rounded-lg bg-orange-50 flex items-center justify-center">
+<span class="material-symbols-outlined text-orange-600 text-lg" data-icon="trending_up">trending_up</span>
+</div>
+<span class="text-[10px] font-extrabold text-orange-600 uppercase tracking-widest">Growth Alert</span>
+</div>
+<p class="text-sm font-semibold text-slate-900 mb-1 leading-tight">Revenue surge detected</p>
+<p class="text-xs text-slate-500">Alert: Your revenue is 15% higher than last month. Consider increasing your tax prepayments.</p>
+<div class="mt-4 h-1.5 w-full bg-slate-100 rounded-full overflow-hidden">
+<div class="h-full bg-orange-500 w-[75%] rounded-full"></div>
+</div>
+</div>
+<!-- Integration Card -->
+<div class="relative p-6 rounded-2xl overflow-hidden min-h-[160px] flex flex-col justify-end">
+<div class="absolute inset-0 bg-slate-900">
+<img class="w-full h-full object-cover opacity-40 mix-blend-overlay" data-alt="Abstract neural network visualization background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCj7GFXiEUAiKvRDaugMbt0MT2VGQHIKmIXO495o4l9qLBgft4Gq-CMA0WJylONUrjeN0RZgrDFEIYnax_oLZGes1wZ6UMv2FOLjENEH0kj0KjRD8hmnlwML8SZsQ54r6XQ5t-ORXWIs-9b4DnwYzMaSEa8d6bUtwkgJmI1RG9BdQ9xw58IoGSJcWT3HC6VXwMSpfVIW1j98wqCx2JwYZrqWcC0Ernp-SPbpa7WfeXGvzridk30LXAxZrvGw_PpEpHjTqhw0atwgOg"/>
+</div>
+<div class="relative z-10">
+<h4 class="text-white font-bold text-lg leading-tight mb-2">Connect Your Bank</h4>
+<p class="text-slate-300 text-xs mb-4">Unlock real-time transaction analysis for 100% accurate tax forecasts.</p>
+<button class="w-full py-2 bg-white text-slate-900 rounded-lg text-xs font-bold hover:bg-slate-100 transition-colors">
+                            Setup Integration
+                        </button>
+</div>
+</div>
+<!-- Performance Card -->
+<div class="p-5 rounded-2xl bg-tertiary-container/10 border border-tertiary/10">
+<div class="flex justify-between items-start mb-4">
+<p class="text-[10px] font-bold text-tertiary uppercase tracking-wider">Health Score</p>
+<span class="text-lg font-bold text-tertiary">94/100</span>
+</div>
+<div class="flex gap-1 h-8 items-end">
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[40%]"></div>
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[60%]"></div>
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[55%]"></div>
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[80%]"></div>
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[70%]"></div>
+<div class="flex-1 bg-tertiary rounded-t-sm h-[95%]"></div>
+<div class="flex-1 bg-tertiary/20 rounded-t-sm h-[85%]"></div>
+</div>
+<p class="mt-3 text-[10px] text-tertiary font-medium">Finances are in excellent shape. No audits predicted.</p>
+</div>
+</div>
+</aside>
+</main>
+<!-- FAB (Suppressed as per rules for Details/Settings/AI Focused pages, but if deemed critical for 'New Entry'...) -->
+<!-- Suppressing FAB to maintain focus on the Chat Canvas -->
+</body></html>
